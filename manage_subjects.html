@@ -1,0 +1,1240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Subjects | Admin Dashboard</title>
+    <style>
+
+/* GENERAL SETTINGS */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #07345c;
+    --blue: #0875d1;
+    --ink: #24364b;
+    --muted: #718096;
+    --line: #e4ebf2;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f3f7fb;
+    color: var(--ink);
+    font-size: 14px;
+}
+
+/* MAIN LAYOUT */
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 238px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #07345c, #062a4b);
+    color: #d8e8f7;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 12px;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px 26px;
+    color: white;
+    white-space: nowrap;
+}
+
+.brand-icon {
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: #0d75c7;
+    font-size: 17px;
+}
+
+/* NAVIGATION */
+.navigation {
+    display: grid;
+    gap: 5px;
+}
+
+.navigation a,
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 6px;
+    color: #c5d8e9;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.18s;
+}
+
+.navigation a span,
+.logout span {
+    width: 15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.navigation a:hover,
+.logout:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.navigation a.active {
+    background: #0875d1;
+    color: white;
+    box-shadow: 0 4px 12px #001d3c55;
+}
+
+.logout {
+    margin-top: auto;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    width: min(1200px, calc(100% - 238px));
+    padding: 30px 38px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2px 0 25px;
+}
+
+.eyebrow {
+    color: #0875d1;
+    font-weight: bold;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    margin: 0 0 7px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 25px;
+    color: #18334e;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin: 7px 0 0;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #dceeff;
+    color: #0765b3;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    border: 1px solid #c5e1fa;
+}
+
+/* SUBJECT PANEL */
+.panel {
+    background: white;
+    border: 1px solid #e3eaf1;
+    border-radius: 9px;
+    box-shadow: 0 5px 18px rgba(20,54,86,0.055);
+    overflow: hidden;
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px 22px 17px;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    font-size: 17px;
+    color: #1d344b;
+}
+
+.panel-heading p {
+    margin: 5px 0 0;
+    color: #8492a2;
+    font-size: 12px;
+}
+
+/* BUTTONS */
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: #0875d1;
+    border: 1px solid #0875d1;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 650;
+    box-shadow: 0 2px 5px #0875d126;
+    transition: 0.18s;
+}
+
+.primary-btn:hover {
+    background: #0564b5;
+    transform: translateY(-1px);
+}
+
+/* SEARCH BAR */
+.table-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px 13px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 245px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 7px 10px;
+    color: #8191a2;
+}
+
+.search-box input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    font: inherit;
+    font-size: 12px;
+    color: var(--ink);
+}
+
+.count {
+    font-size: 11px;
+    color: #8492a2;
+}
+
+/* TABLE */
+.table-wrap {
+    overflow-x: auto;
+    padding: 0 22px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+}
+
+thead {
+    background: #f1f6fb;
+}
+
+th {
+    color: #51677d;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 13px;
+    border-top: 1px solid #e8eef4;
+    border-bottom: 1px solid #e2eaf2;
+}
+
+td {
+    padding: 12px 13px;
+    border-bottom: 1px solid #edf1f5;
+    font-size: 12px;
+    color: #42576b;
+}
+
+tbody tr:hover {
+    background: #f8fbfe;
+}
+
+td:first-child {
+    color: #8190a0;
+    width: 55px;
+}
+
+.subject-name {
+    font-weight: 650;
+    color: #253e57;
+}
+
+.code-pill {
+    display: inline-block;
+    background: #f0f6fc;
+    color: #28618f;
+    padding: 4px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 650;
+}
+
+/* ACTION BUTTONS */
+.actions {
+    display: flex;
+    gap: 6px;
+}
+
+.icon-btn {
+    width: 25px;
+    height: 25px;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+    display: grid;
+    place-items: center;
+}
+
+.edit-btn {
+    background: #1685dc;
+}
+
+.delete-btn {
+    background: #ef5350;
+}
+
+.icon-btn:hover {
+    filter: brightness(0.9);
+    transform: translateY(-1px);
+}
+
+/* FOOTER */
+.panel-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 22px;
+    color: #8795a4;
+    font-size: 11px;
+}
+
+.panel-footer b {
+    color: #42576b;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status i {
+    width: 6px;
+    height: 6px;
+    background: #22b573;
+    border-radius: 50%;
+}
+
+.page-foot {
+    color: #a0acb8;
+    text-align: center;
+    font-size: 11px;
+    margin-top: 24px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #8795a4;
+    padding: 28px 10px;
+    font-size: 12px;
+}
+
+/* ADD / EDIT MODAL */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(7,26,46,0.48);
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    z-index: 5;
+}
+
+.modal-backdrop[hidden] {
+    display: none;
+}
+
+.modal {
+    width: min(470px, 100%);
+    background: white;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 20px 60px #00172d44;
+    animation: pop 0.18s ease-out;
+}
+
+@keyframes pop {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.modal-header p {
+    margin: 5px 0 0;
+    color: #8795a4;
+    font-size: 12px;
+}
+
+.close-btn {
+    border: 0;
+    background: transparent;
+    color: #718096;
+    font-size: 25px;
+    line-height: 1;
+}
+
+/* FORM */
+form label {
+    display: grid;
+    gap: 7px;
+    color: #40566c;
+    font-size: 12px;
+    font-weight: 650;
+    margin-bottom: 15px;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid #dce5ed;
+    border-radius: 5px;
+    outline: 0;
+    font: inherit;
+    font-size: 13px;
+    color: #34495e;
+    background: white;
+}
+
+form input:focus,
+form select:focus {
+    border-color: #1685dc;
+    box-shadow: 0 0 0 3px #1685dc18;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.secondary-btn {
+    background: white;
+    border: 1px solid #dce5ed;
+    color: #52677b;
+    padding: 9px 14px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* TOAST MESSAGE */
+.toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    background: #173b5d;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px #00172d30;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: 0.22s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: none;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 760px) {
+
+    .sidebar {
+        width: 62px;
+        padding: 14px 7px;
+    }
+
+    .brand {
+        justify-content: center;
+        padding: 5px 0 24px;
+    }
+
+    .brand span:last-child {
+        display: none;
+    }
+
+    .navigation a,
+    .logout {
+        justify-content: center;
+        padding: 12px 5px;
+        font-size: 0;
+        gap: 0;
+    }
+
+    .navigation a span,
+    .logout span {
+        font-size: 16px;
+    }
+
+    .main-content {
+        width: calc(100% - 62px);
+        padding: 23px 15px;
+    }
+
+    .topbar {
+        margin-bottom: 18px;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+
+    .panel-heading {
+        padding: 17px 15px;
+    }
+
+    .table-tools {
+        padding: 0 15px 12px;
+    }
+
+    .table-wrap {
+        padding: 0 15px;
+    }
+
+    .panel-footer {
+        padding: 12px 15px;
+    }
+
+    .status {
+        display: none;
+    }
+}
+
+@media (max-width: 460px) {
+
+    .panel-heading {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .search-box {
+        width: 190px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <span class="brand-icon">▦</span>
+            <span>Timetable Management System</span>
+        </div>
+
+        <nav class="navigation">
+            <a href="#"><span>⌂</span> Dashboard</a>
+            <a href="#"><span>♙</span> Teachers</a>
+            <a class="active" href="#"><span>▤</span> Subjects</a>
+            <a href="#"><span>▦</span> Classes</a>
+            <a href="#"><span>▣</span> Classrooms</a>
+            <a href="#"><span>▦</span> Timetable</a>
+            <a href="#"><span>♟</span> Users</a>
+            <a href="#"><span>⚙</span> Settings</a>
+        </nav>
+
+        <a class="logout" href="#">
+            <span>↪</span> Logout
+        </a>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">ADMINISTRATION</p>
+                <h1>Manage Subjects</h1>
+                <p class="subtitle">
+                    Add, edit, and manage academic subjects.
+                </p>
+            </div>
+
+            <div class="avatar">A</div>
+        </header>
+
+        <!-- Subject Panel -->
+        <section class="panel">
+
+            <div class="panel-heading">
+                <div>
+                    <h2>Manage Subjects</h2>
+                    <p>View and maintain the subject list</p>
+                </div>
+
+                <button class="primary-btn" id="addSubjectBtn">
+                    + Add Subject
+                </button>
+            </div>
+
+            <!-- Search -->
+            <div class="table-tools">
+                <label class="search-box">
+                    <span>⌕</span>
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search subjects..."
+                    >
+                </label>
+
+                <span class="count" id="subjectCount">
+                    5 subjects
+                </span>
+            </div>
+
+            <!-- Subject Table -->
+            <div class="table-wrap">
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject Name</th>
+                            <th>Code</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="subjectTable">
+                    </tbody>
+
+                </table>
+
+                <div class="empty-state" id="emptyState" hidden>
+                    No subjects found.
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <span>
+                    Showing <b id="showingCount">5</b> subject(s)
+                </span>
+
+                <span class="status">
+                    <i></i> All changes are local to this demo
+                </span>
+            </div>
+
+        </section>
+
+        <p class="page-foot">
+            © 2026 Timetable Management System
+        </p>
+
+    </main>
+</div>
+
+<!-- Add/Edit Subject Modal -->
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+
+    <section class="modal">
+
+        <div class="modal-header">
+            <div>
+                <h2 id="modalTitle">Add Subject</h2>
+                <p>Enter the subject information below.</p>
+            </div>
+
+            <button class="close-btn" id="closeModal">×</button>
+        </div>
+
+        <form id="subjectForm">
+
+            <input type="hidden" id="editId">
+
+            <label>
+                Subject Name
+                <input
+                    type="text"
+                    id="subjectName"
+                    required
+                    maxlength="60"
+                    placeholder="e.g. Data Structures"
+                >
+            </label>
+
+            <div class="form-row">
+
+                <label>
+                    Subject Code
+                    <input
+                        type="text"
+                        id="subjectCode"
+                        required
+                        maxlength="12"
+                        placeholder="e.g. CS101"
+                    >
+                </label>
+
+                <label>
+                    Department
+
+                    <select id="department" required>
+                        <option value="">Select department</option>
+                        <option>CSE</option>
+                        <option>ITE</option>
+                        <option>ECE</option>
+                        <option>ME</option>
+                        <option>CE</option>
+                    </select>
+                </label>
+
+            </div>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                    id="saveBtn"
+                >
+                    Save Subject
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+</div>
+
+<!-- Notification -->
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+
+// INITIAL SUBJECT DATA
+
+const startingSubjects = [
+    {
+        id: 1,
+        name: "Data Structures",
+        code: "CS101",
+        department: "CSE"
+    },
+    {
+        id: 2,
+        name: "Database Management Systems",
+        code: "CS102",
+        department: "CSE"
+    },
+    {
+        id: 3,
+        name: "Computer Networks",
+        code: "CS103",
+        department: "CSE"
+    },
+    {
+        id: 4,
+        name: "Web Technologies",
+        code: "IT201",
+        department: "ITE"
+    },
+    {
+        id: 5,
+        name: "Machine Learning",
+        code: "IT202",
+        department: "ITE"
+    }
+];
+
+let subjects = [...startingSubjects];
+
+// GET HTML ELEMENTS
+
+const tableBody = document.getElementById("subjectTable");
+
+const modal = document.getElementById("modalBackdrop");
+
+const form = document.getElementById("subjectForm");
+
+const searchInput = document.getElementById("searchInput");
+
+const toast = document.getElementById("toast");
+
+
+// DISPLAY SUBJECTS IN TABLE
+
+function renderSubjects() {
+
+    const query = searchInput.value.trim().toLowerCase();
+
+    const filtered = subjects.filter(subject => {
+
+        return [
+            subject.name,
+            subject.code,
+            subject.department,
+            String(subject.id)
+
+        ].some(value => value.toLowerCase().includes(query));
+
+    });
+
+    tableBody.innerHTML = filtered.map(subject => `
+
+        <tr>
+
+            <td>${subject.id}</td>
+
+            <td class="subject-name">
+                ${escapeHTML(subject.name)}
+            </td>
+
+            <td>
+                <span class="code-pill">
+                    ${escapeHTML(subject.code)}
+                </span>
+            </td>
+
+            <td>
+                ${escapeHTML(subject.department)}
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                        class="icon-btn edit-btn"
+                        title="Edit subject"
+                        data-edit="${subject.id}">
+                        ✎
+                    </button>
+
+                    <button
+                        class="icon-btn delete-btn"
+                        title="Delete subject"
+                        data-delete="${subject.id}">
+                        ▣
+                    </button>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `).join("");
+
+    // UPDATE SUBJECT COUNT
+
+    document.getElementById("subjectCount").textContent =
+        `${subjects.length} subjects`;
+
+    document.getElementById("showingCount").textContent =
+        filtered.length;
+
+    // EMPTY SEARCH RESULT
+
+    document.getElementById("emptyState").hidden =
+        filtered.length !== 0;
+
+}
+
+
+// PROTECT HTML OUTPUT
+
+function escapeHTML(value) {
+
+    return String(value).replace(/[&<>"']/g, character => ({
+
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+
+    }[character]));
+
+}
+
+
+// OPEN ADD / EDIT FORM
+
+function openModal(subject = null) {
+
+    form.reset();
+
+    document.getElementById("editId").value =
+        subject ? subject.id : "";
+
+    document.getElementById("modalTitle").textContent =
+        subject ? "Edit Subject" : "Add Subject";
+
+    document.getElementById("saveBtn").textContent =
+        subject ? "Update Subject" : "Save Subject";
+
+    if (subject) {
+
+        document.getElementById("subjectName").value =
+            subject.name;
+
+        document.getElementById("subjectCode").value =
+            subject.code;
+
+        document.getElementById("department").value =
+            subject.department;
+
+    }
+
+    modal.hidden = false;
+
+    document.getElementById("subjectName").focus();
+
+}
+
+
+// CLOSE FORM
+
+function closeModal() {
+
+    modal.hidden = true;
+
+}
+
+
+// SHOW NOTIFICATION
+
+function showToast(message) {
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    window.clearTimeout(showToast.timer);
+
+    showToast.timer = window.setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2400);
+
+}
+
+
+// ADD SUBJECT BUTTON
+
+document.getElementById("addSubjectBtn")
+    .addEventListener("click", () => {
+
+        openModal();
+
+    });
+
+
+// CLOSE BUTTON
+
+document.getElementById("closeModal")
+    .addEventListener("click", closeModal);
+
+
+// CANCEL BUTTON
+
+document.getElementById("cancelBtn")
+    .addEventListener("click", closeModal);
+
+
+// CLOSE MODAL BY CLICKING OUTSIDE
+
+modal.addEventListener("click", event => {
+
+    if (event.target === modal) {
+
+        closeModal();
+
+    }
+
+});
+
+
+// CLOSE MODAL USING ESCAPE KEY
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && !modal.hidden) {
+
+        closeModal();
+
+    }
+
+});
+
+
+// SEARCH SUBJECTS
+
+searchInput.addEventListener("input", renderSubjects);
+
+
+// EDIT AND DELETE BUTTONS
+
+tableBody.addEventListener("click", event => {
+
+    const editButton = event.target.closest("[data-edit]");
+
+    const deleteButton = event.target.closest("[data-delete]");
+
+
+    // EDIT SUBJECT
+
+    if (editButton) {
+
+        const subject = subjects.find(subject =>
+
+            subject.id === Number(editButton.dataset.edit)
+
+        );
+
+        if (subject) {
+
+            openModal(subject);
+
+        }
+
+    }
+
+
+    // DELETE SUBJECT
+
+    if (deleteButton) {
+
+        const id = Number(deleteButton.dataset.delete);
+
+        const subject = subjects.find(subject =>
+
+            subject.id === id
+
+        );
+
+        if (subject && confirm(`Delete "${subject.name}"?`)) {
+
+            subjects = subjects.filter(subject =>
+
+                subject.id !== id
+
+            );
+
+            renderSubjects();
+
+            showToast("Subject deleted successfully.");
+
+        }
+
+    }
+
+});
+
+
+// SAVE OR UPDATE SUBJECT
+
+form.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+
+    // GET FORM VALUES
+
+    const idValue =
+        document.getElementById("editId").value;
+
+    const name =
+        document.getElementById("subjectName").value.trim();
+
+    const code =
+        document.getElementById("subjectCode").value.trim().toUpperCase();
+
+    const department =
+        document.getElementById("department").value;
+
+
+    // VALIDATION
+
+    if (!name || !code || !department) {
+
+        return;
+
+    }
+
+
+    // CHECK DUPLICATE SUBJECT CODE
+
+    const duplicate = subjects.some(subject =>
+
+        subject.code.toLowerCase() === code.toLowerCase()
+        && subject.id !== Number(idValue)
+
+    );
+
+    if (duplicate) {
+
+        alert("This subject code already exists!");
+
+        return;
+
+    }
+
+
+    // UPDATE EXISTING SUBJECT
+
+    if (idValue) {
+
+        const index = subjects.findIndex(subject =>
+
+            subject.id === Number(idValue)
+
+        );
+
+        if (index !== -1) {
+
+            subjects[index] = {
+
+                id: Number(idValue),
+
+                name: name,
+
+                code: code,
+
+                department: department
+
+            };
+
+        }
+
+        showToast("Subject updated successfully.");
+
+    }
+
+
+    // ADD NEW SUBJECT
+
+    else {
+
+        const nextId = subjects.length
+
+            ? Math.max(...subjects.map(subject => subject.id)) + 1
+
+            : 1;
+
+        subjects.push({
+
+            id: nextId,
+
+            name: name,
+
+            code: code,
+
+            department: department
+
+        });
+
+        showToast("Subject added successfully.");
+
+    }
+
+
+    // REFRESH TABLE
+
+    renderSubjects();
+
+
+    // CLOSE FORM
+
+    closeModal();
+
+});
+
+
+// INITIAL DISPLAY
+
+renderSubjects();
+
+</script>
+
+</body>
+</html>
