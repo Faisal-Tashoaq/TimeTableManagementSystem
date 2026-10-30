@@ -2,308 +2,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timetable Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timetable Management System</title>
 
-    <!-- CSS -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            color: #333;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #24364b;
+}
 
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
+/* TOP NAVBAR */
+.navbar {
+    height: 48px;
+    background: #073b68;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
 
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: #1e3a5f;
-            color: white;
-            padding: 25px 15px;
-        }
+.logo {
+    font-size: 13px;
+    font-weight: bold;
+}
 
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+.admin {
+    font-size: 12px;
+    cursor: pointer;
+}
 
-        .sidebar ul {
-            list-style: none;
-        }
+/* PAGE LAYOUT */
+.container {
+    display: flex;
+    min-height: calc(100vh - 48px);
+}
 
-        .sidebar li {
-            padding: 15px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            border-radius: 6px;
-        }
+/* SIDEBAR */
+.sidebar {
+    width: 190px;
+    background: #073b68;
+    color: white;
+    flex-shrink: 0;
+}
 
-        .sidebar li:hover,
-        .sidebar li.active {
-            background: #34577f;
-        }
+.sidebar ul {
+    list-style: none;
+    padding-top: 12px;
+}
 
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            min-width: 0;
-        }
+.sidebar li {
+    padding: 11px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+}
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
+.sidebar li:hover,
+.sidebar li.active {
+    background: #087bd0;
+    border-left-color: white;
+}
 
-        .topbar h1 {
-            color: #1e3a5f;
-            font-size: 28px;
-        }
+.sidebar li span {
+    display: inline-block;
+    width: 23px;
+}
 
-        .admin {
-            background: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
+/* MAIN CONTENT */
+.main {
+    flex: 1;
+    padding: 22px;
+    min-width: 0;
+}
 
-        .welcome {
-            font-size: 18px;
-            margin-bottom: 25px;
-            color: #666;
-        }
+.welcome h2 {
+    font-size: 21px;
+    margin-bottom: 6px;
+    color: #183b5e;
+}
 
-        /* Dashboard Cards */
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+.welcome p {
+    font-size: 12px;
+    color: #60758a;
+    margin-bottom: 20px;
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+/* STATISTICS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
 
-        .card h3 {
-            color: #666;
-            margin-bottom: 15px;
-        }
+.card {
+    height: 100px;
+    border-radius: 7px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
 
-        .card h2 {
-            color: #1e3a5f;
-            font-size: 30px;
-        }
+.card-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
 
-        /* Quick Actions */
-        .quick-actions {
-            margin-top: 35px;
-        }
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
 
-        .quick-actions h2,
-        .activity h2 {
-            margin-bottom: 20px;
-            color: #1e3a5f;
-        }
+.card p {
+    font-size: 11px;
+}
 
-        .action-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+.blue {
+    background: linear-gradient(120deg, #1685dc, #48b5ef);
+}
 
-        button {
-            background: #1e3a5f;
-            color: white;
-            border: none;
-            padding: 13px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+.green {
+    background: linear-gradient(120deg, #20ad76, #59d49b);
+}
 
-        button:hover {
-            background: #34577f;
-        }
+.orange {
+    background: linear-gradient(120deg, #f29b20, #ffca61);
+}
 
-        /* Recent Activity */
-        .activity {
-            margin-top: 35px;
-        }
+.purple {
+    background: linear-gradient(120deg, #8751db, #b18af4);
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
+/* QUICK ACTIONS */
+.quick-section {
+    margin-top: 22px;
+}
 
-        th, td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
+.quick-section h3 {
+    font-size: 14px;
+    color: #183b5e;
+    margin-bottom: 12px;
+}
 
-        th {
-            background: #1e3a5f;
-            color: white;
-        }
+.actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
 
-        /* Responsive */
-        @media (max-width: 700px) {
-            .container {
-                flex-direction: column;
-            }
+.action {
+    height: 65px;
+    background: white;
+    border: 1px solid #e1e8f0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-            .sidebar {
-                width: 100%;
-            }
+.action:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
 
-            .dashboard-cards {
-                grid-template-columns: 1fr;
-            }
+.action-icon {
+    height: 31px;
+    width: 31px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    background: #e6f2ff;
+    color: #1685dc;
+}
 
-            .topbar {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-        }
-    </style>
+.action:nth-child(2) .action-icon {
+    background: #e2f6ed;
+    color: #20ad76;
+}
+
+.action:nth-child(3) .action-icon {
+    background: #f0e9ff;
+    color: #8751db;
+}
+
+.action:nth-child(4) .action-icon {
+    background: #e5f0ff;
+    color: #1685dc;
+}
+
+.action p {
+    font-size: 11px;
+    color: #40566c;
+}
+
+/* RESPONSIVE */
+@media(max-width: 750px) {
+    .stats, .actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 500px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .main {
+        padding: 14px;
+    }
+
+    .stats, .actions {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="logo">▦ &nbsp; Timetable Management System</div>
+    <div class="admin">👤 &nbsp; Admin &nbsp;⌄</div>
+</header>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>TimeTable</h2>
+<div class="container">
 
-            <ul>
-                <li class="active" onclick="showPage('Dashboard')">Dashboard</li>
-                <li onclick="showPage('Add Teacher')">Add Teacher</li>
-                <li onclick="showPage('Manage Teachers')">Manage Teachers</li>
-                <li onclick="showPage('Manage Subjects')">Manage Subjects</li>
-                <li onclick="showPage('Create Timetable')">Create Timetable</li>
-                <li onclick="showPage('View Timetable')">View Timetable</li>
-                <li onclick="showPage('Settings')">Settings</li>
-            </ul>
-        </aside>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <ul>
+            <li class="active" onclick="selectPage(this,'Dashboard')">
+                <span>⌂</span> Dashboard
+            </li>
 
-        <!-- Main Content -->
-        <main class="main-content">
+            <li onclick="selectPage(this,'Teachers')">
+                <span>♟</span> Teachers
+            </li>
 
-            <header class="topbar">
-                <h1 id="pageTitle">Dashboard</h1>
-                <div class="admin">Administrator</div>
-            </header>
+            <li onclick="selectPage(this,'Subjects')">
+                <span>▦</span> Subjects
+            </li>
 
-            <p class="welcome">
-                Welcome to Timetable Management System!
-            </p>
+            <li onclick="selectPage(this,'Classes')">
+                <span>▤</span> Classes
+            </li>
 
-            <!-- Cards -->
-            <div class="dashboard-cards">
+            <li onclick="selectPage(this,'Classrooms')">
+                <span>▣</span> Classrooms
+            </li>
 
-                <div class="card">
-                    <h3>Total Teachers</h3>
-                    <h2>25</h2>
-                </div>
+            <li onclick="selectPage(this,'Timetable')">
+                <span>▦</span> Timetable
+            </li>
 
-                <div class="card">
-                    <h3>Total Subjects</h3>
-                    <h2>12</h2>
-                </div>
+            <li onclick="selectPage(this,'Users')">
+                <span>♙</span> Users
+            </li>
 
-                <div class="card">
-                    <h3>Total Classrooms</h3>
+            <li onclick="selectPage(this,'Settings')">
+                <span>⚙</span> Settings
+            </li>
+
+            <li onclick="selectPage(this,'Logout')">
+                <span>↪</span> Logout
+            </li>
+        </ul>
+    </aside>
+
+    <!-- DASHBOARD CONTENT -->
+    <main class="main">
+
+        <section class="welcome">
+            <h2 id="pageTitle">Welcome, Admin!</h2>
+            <p>Here's an overview of your timetable management system.</p>
+        </section>
+
+        <!-- FOUR CARDS -->
+        <section class="stats">
+
+            <div class="card blue">
+                <div class="card-icon">♟</div>
+                <div>
                     <h2>10</h2>
+                    <p>Teachers</p>
+                </div>
+            </div>
+
+            <div class="card green">
+                <div class="card-icon">▦</div>
+                <div>
+                    <h2>12</h2>
+                    <p>Subjects</p>
+                </div>
+            </div>
+
+            <div class="card orange">
+                <div class="card-icon">♟</div>
+                <div>
+                    <h2>6</h2>
+                    <p>Classes</p>
+                </div>
+            </div>
+
+            <div class="card purple">
+                <div class="card-icon">▣</div>
+                <div>
+                    <h2>8</h2>
+                    <p>Classrooms</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="quick-section">
+
+            <h3>Quick Actions</h3>
+
+            <div class="actions">
+
+                <div class="action" onclick="showMessage('Add Teacher')">
+                    <div class="action-icon">♟</div>
+                    <p>Add Teacher</p>
                 </div>
 
-                <div class="card">
-                    <h3>Total Timetables</h3>
-                    <h2>8</h2>
+                <div class="action" onclick="showMessage('Add Subject')">
+                    <div class="action-icon">▦</div>
+                    <p>Add Subject</p>
+                </div>
+
+                <div class="action" onclick="showMessage('Create Timetable')">
+                    <div class="action-icon">▣</div>
+                    <p>Create Timetable</p>
+                </div>
+
+                <div class="action" onclick="showMessage('View Timetable')">
+                    <div class="action-icon">▤</div>
+                    <p>View Timetable</p>
                 </div>
 
             </div>
+        </section>
 
-            <!-- Quick Actions -->
-            <section class="quick-actions">
-                <h2>Quick Actions</h2>
+    </main>
+</div>
 
-                <div class="action-buttons">
-                    <button onclick="showPage('Add Teacher')">Add Teacher</button>
-                    <button onclick="showPage('Manage Subjects')">Manage Subjects</button>
-                    <button onclick="showPage('Create Timetable')">Create Timetable</button>
-                    <button onclick="showPage('View Timetable')">View Timetable</button>
-                </div>
-            </section>
+<!-- JAVASCRIPT -->
+<script>
+function selectPage(element, pageName) {
 
-            <!-- Recent Activity -->
-            <section class="activity">
-                <h2>Recent Activity</h2>
+    document.querySelectorAll(".sidebar li").forEach(function(item) {
+        item.classList.remove("active");
+    });
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Activity</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+    element.classList.add("active");
 
-                    <tbody>
-                        <tr>
-                            <td>Dashboard Created</td>
-                            <td>Today</td>
-                            <td>Completed</td>
-                        </tr>
-                        <tr>
-                            <td>System Setup</td>
-                            <td>Today</td>
-                            <td>Completed</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+    document.getElementById("pageTitle").textContent =
+        pageName === "Dashboard" ? "Welcome, Admin!" : pageName;
+}
 
-        </main>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        function showPage(pageName) {
-
-            document.getElementById("pageTitle").textContent = pageName;
-
-            const menuItems = document.querySelectorAll(".sidebar li");
-
-            menuItems.forEach(function(item) {
-                item.classList.remove("active");
-            });
-
-            menuItems.forEach(function(item) {
-                if (item.textContent.trim() === pageName) {
-                    item.classList.add("active");
-                }
-            });
-
-            console.log(pageName + " selected");
-        }
-    </script>
+function showMessage(name) {
+    alert(name + " page will be developed next.");
+}
+</script>
 
 </body>
 </html>
