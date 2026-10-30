@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timetable Management System</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f8fd;
+    color: #102c54;
+}
+
+/* TOP NAVIGATION */
+
+.topbar {
+    height: 58px;
+    background: linear-gradient(90deg, #173d69, #102747);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.logo i {
+    font-size: 32px;
+}
+
+.top-links {
+    display: flex;
+    height: 100%;
+    gap: 30px;
+}
+
+.top-links a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 10px;
+    border-bottom: 4px solid transparent;
+    font-size: 15px;
+}
+
+.top-links a:hover,
+.top-links a.active {
+    border-bottom-color: #168cff;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    top: 58px;
+    left: 0;
+    width: 196px;
+    height: calc(100vh - 58px);
+    background: linear-gradient(180deg, #12365f, #102a4b);
+    padding-top: 21px;
+    z-index: 900;
+}
+
+.sidebar a {
+    display: block;
+    padding: 13px 23px;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    width: 30px;
+    font-size: 17px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #1681e8;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 196px;
+    padding-top: 58px;
+}
+
+/* HERO SECTION */
+
+.hero {
+    min-height: 393px;
+    background:
+    linear-gradient(90deg,
+    rgba(5, 24, 47, 0.94),
+    rgba(5, 24, 47, 0.65),
+    rgba(5, 24, 47, 0.10)),
+    url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85");
+
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding: 55px 70px;
+    position: relative;
+    color: white;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 54px;
+    font-weight: 800;
+    line-height: 1.08;
+    margin-bottom: 17px;
+}
+
+.hero h1 span {
+    color: #48a5ff;
+}
+
+.hero p {
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.buttons {
+    display: flex;
+    gap: 17px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+}
+
+.btn-login {
+    background: #168cff;
+    border: 1px solid #168cff;
+}
+
+.btn-more {
+    border: 1px solid white;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+.hero-tagline {
+    position: absolute;
+    right: 35px;
+    bottom: 35px;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 600;
+    text-align: right;
+    transform: rotate(-5deg);
+}
+
+/* FEATURES SECTION */
+
+.features {
+    padding: 27px 30px 15px;
+    min-height: 520px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 23px;
+}
+
+.section-title span {
+    color: #168cff;
+    margin-right: 10px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.feature-card {
+    background: white;
+    border: 1px solid #dce9f8;
+    border-radius: 7px;
+    padding: 19px 38px;
+    min-height: 215px;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 7px 20px rgba(20, 65, 110, 0.12);
+}
+
+.icon-circle {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 29px;
+    margin-bottom: 14px;
+}
+
+.blue {
+    background: #dceeff;
+    color: #168cff;
+}
+
+.green {
+    background: #d2f5e7;
+    color: #079d72;
+}
+
+.purple {
+    background: #e7e0ff;
+    color: #5940df;
+}
+
+.orange {
+    background: #ffe0d2;
+    color: #f4512c;
+}
+
+.pink {
+    background: #ffd6e9;
+    color: #d52273;
+}
+
+.teal {
+    background: #c9f3ed;
+    color: #009e87;
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #102e59;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #617b9f;
+    line-height: 1.5;
+}
+
+/* FOOTER */
+
+.footer {
+    min-height: 45px;
+    background: linear-gradient(90deg, #173d69, #102747);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    font-size: 12px;
+}
+
+.footer-right {
+    word-spacing: 5px;
+}
+
+/* LOGIN MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background: white;
+    padding: 35px;
+    width: 350px;
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.modal-box button {
+    width: 100%;
+    padding: 12px;
+    background: #168cff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media(max-width: 1100px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+}
+
+@media(max-width: 700px) {
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .logo {
+        font-size: 15px;
+    }
+
+    .logo i {
+        font-size: 23px;
+    }
+
+    .top-links {
+        gap: 5px;
+    }
+
+    .top-links a {
+        font-size: 12px;
+        padding: 0 5px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .hero {
+        min-height: 400px;
+        padding: 35px 22px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .hero-tagline {
+        display: none;
+    }
+
+    .features {
+        padding: 25px 15px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP NAVIGATION -->
+
+<header class="topbar">
+
+    <div class="logo">
+        <i class="fa-regular fa-calendar-days"></i>
+        Timetable Management System
+    </div>
+
+    <nav class="top-links">
+        <a href="#home" class="active">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+
+        <a href="#" onclick="openLogin(); return false;">
+            <i class="fa-solid fa-user"></i> Login
+        </a>
+
+        <a href="#features">
+            <i class="fa-solid fa-circle-info"></i> About
+        </a>
+    </nav>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <a href="#home" class="active">
+        <i class="fa-solid fa-house"></i> Home
+    </a>
+
+    <a href="#" onclick="openLogin(); return false;">
+        <i class="fa-regular fa-user"></i> Login
+    </a>
+
+    <a href="#features">
+        <i class="fa-regular fa-circle-info"></i> About
+    </a>
+
+    <a href="mailto:admin@example.com">
+        <i class="fa-regular fa-envelope"></i> Contact
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main class="main" id="home">
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Timetable<br>
+                <span>Management System</span>
+            </h1>
+
+            <p>
+                Manage your academic schedule easily and efficiently.
+                Create, update and view timetables for classes, teachers,
+                subjects and classrooms — all in one place.
+            </p>
+
+            <div class="buttons">
+
+                <a href="#" class="btn btn-login"
+                   onclick="openLogin(); return false;">
+                    <i class="fa-solid fa-user"></i>
+                    &nbsp; Login
+                </a>
+
+                <a href="#features" class="btn btn-more">
+                    Learn More &nbsp;
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-tagline">
+            Better Planning<br>
+            for a Brighter Future
+        </div>
+
+    </section>
+
+    <!-- FEATURES SECTION -->
+
+    <section class="features" id="features">
+
+        <h2 class="section-title">
+            <span>—</span> Key Features
+        </h2>
+
+        <div class="feature-grid">
+
+            <!-- CARD 1 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle blue">
+                    <i class="fa-regular fa-calendar-days"></i>
+                </div>
+
+                <h3>Timetable Management</h3>
+
+                <p>
+                    Create, update and manage timetables for
+                    different classes, sections and departments.
+                </p>
+
+            </div>
+
+            <!-- CARD 2 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle green">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <h3>Teacher & Subject Management</h3>
+
+                <p>
+                    Maintain teacher details and manage
+                    subject assignments with ease.
+                </p>
+
+            </div>
+
+            <!-- CARD 3 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle purple">
+                    <i class="fa-solid fa-chalkboard"></i>
+                </div>
+
+                <h3>Classroom Management</h3>
+
+                <p>
+                    Add and manage classrooms and laboratories
+                    for smooth scheduling.
+                </p>
+
+            </div>
+
+            <!-- CARD 4 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle orange">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <h3>Conflict Detection</h3>
+
+                <p>
+                    Automatically check for clashes between
+                    teachers, classrooms and classes.
+                </p>
+
+            </div>
+
+            <!-- CARD 5 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle pink">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <h3>View Timetable</h3>
+
+                <p>
+                    View timetables by class, teacher, day
+                    or subject with simple search and filters.
+                </p>
+
+            </div>
+
+            <!-- CARD 6 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle teal">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+
+                <h3>Secure Database</h3>
+
+                <p>
+                    Store all data safely in a MySQL database
+                    with proper organization and backup.
+                </p>
+
+            </div>
+
+            <!-- CARD 7 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle purple">
+                    <i class="fa-solid fa-desktop"></i>
+                </div>
+
+                <h3>Web Based Access</h3>
+
+                <p>
+                    Access the system from any device
+                    with a web browser.
+                </p>
+
+            </div>
+
+            <!-- CARD 8 -->
+
+            <div class="feature-card">
+
+                <div class="icon-circle blue">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+
+                <h3>Built with Modern Web Technologies</h3>
+
+                <p>
+                    Uses HTML, CSS, JavaScript, PHP,
+                    MySQL and XML (optional).
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div>
+            <strong>Timetable Management System</strong>
+            &nbsp; | &nbsp; BTech ITE Project
+        </div>
+
+        <div class="footer-right">
+            Organize &bull; Plan &bull; Manage
+        </div>
+
+    </footer>
+
+</main>
+
+<!-- LOGIN POPUP -->
+
+<div class="modal" id="loginModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeLogin()">&times;</span>
+
+        <h2>Login</h2>
+
+        <form onsubmit="loginUser(event)">
+
+            <input type="text" placeholder="Enter Username" required>
+
+            <input type="password" placeholder="Enter Password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// Open Login Popup
+
+function openLogin() {
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+// Close Login Popup
+
+function closeLogin() {
+    document.getElementById("loginModal").style.display = "none";
+}
+
+// Login Form
+
+function loginUser(event) {
+    event.preventDefault();
+
+    alert("Login interface is ready. Backend authentication is not connected yet.");
+
+    closeLogin();
+}
+
+// Close popup when clicking outside
+
+window.onclick = function(event) {
+
+    let modal = document.getElementById("loginModal");
+
+    if (event.target === modal) {
+        closeLogin();
+    }
+
+};
+
+// Sidebar active menu
+
+let sidebarLinks = document.querySelectorAll(".sidebar a");
+
+sidebarLinks.forEach(function(link) {
+
+    link.addEventListener("click", function() {
+
+        sidebarLinks.forEach(function(item) {
+            item.classList.remove("active");
+        });
+
+        this.classList.add("active");
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
