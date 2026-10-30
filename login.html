@@ -164,6 +164,7 @@
         }
 
         /* Responsive Design */
+
         @media (max-width: 650px) {
             .container {
                 grid-template-columns: 1fr;
@@ -178,6 +179,18 @@
             .login-box {
                 max-width: 400px;
             }
+        }
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #3976bd;
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -262,55 +275,69 @@
                 </a>
 
                 <p id="message"></p>
+                <a href="Firstpage.html" class="back-home">← Back to Home</a>
 
             </form>
 
         </div>
 
     </div>
+<!-- JavaScript -->
+<script>
 
-    <!-- JavaScript -->
-    <script>
-        // Login form functionality
-        document.getElementById("loginForm").addEventListener(
-            "submit",
-            function(event) {
+// Login form functionality
 
-                event.preventDefault();
+document.getElementById("loginForm").addEventListener(
+    "submit",
+    function(event) {
 
-                const username = document.getElementById("username").value.trim();
-                const password = document.getElementById("password").value;
-                const message = document.getElementById("message");
+        event.preventDefault();
 
-                if (username === "" || password === "") {
-                    message.style.color = "red";
-                    message.textContent = "Please enter your username and password.";
-                    return;
-                }
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
 
-                message.style.color = "green";
-                message.textContent = "Login form submitted successfully (demo only).";
+        if (username === "" || password === "") {
 
-            }
-        );
+            message.style.color = "red";
+            message.textContent = "Please enter your username and password.";
 
-        // Forgot Password functionality
-        document.getElementById("forgotPassword").addEventListener(
-            "click",
-            function(event) {
+            return;
+        }
 
-                event.preventDefault();
+        message.style.color = "green";
+        message.textContent = "Login successful! Redirecting...";
 
-                const message = document.getElementById("message");
+        // Redirect to homepage after 1 second
 
-                message.style.color = "#3976bd";
+        setTimeout(function() {
 
-                message.textContent =
-                    "Please contact your administrator to reset your password.";
+            window.location.href = "homepage.html";
 
-            }
-        );
-    </script>
+        }, 1000);
 
+    }
+);
+
+
+// Forgot Password functionality
+
+document.getElementById("forgotPassword").addEventListener(
+    "click",
+    function(event) {
+
+        event.preventDefault();
+
+        const message = document.getElementById("message");
+
+        message.style.color = "#3976bd";
+
+        message.textContent =
+            "Please contact your administrator to reset your password.";
+
+    }
+);
+
+</script>
 </body>
 </html>
