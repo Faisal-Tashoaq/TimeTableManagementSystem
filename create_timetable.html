@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Timetable | Timetable Management System</title>
+<style>
+:root {
+  --navy: #07345c;
+  --navy-dark: #062a4b;
+  --blue: #0875d1;
+  --ink: #24364b;
+  --muted: #718096;
+  --line: #e4ebf2;
+  --bg: #f3f7fb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+}
+.app-shell { min-height: 100vh; display: flex; }
+.sidebar {
+  width: 238px; min-height: 100vh; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  padding: 18px 12px;
+  color: #d8e8f7;
+  background: linear-gradient(180deg, var(--navy), var(--navy-dark));
+}
+.brand {
+  display: flex; align-items: center; gap: 9px;
+  padding: 4px 8px 26px; color: white;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+}
+.brand-icon {
+  width: 25px; height: 25px; display: grid; place-items: center;
+  border-radius: 7px; background: #0d75c7; font-size: 17px;
+}
+.navigation { display: grid; gap: 5px; }
+.navigation a, .logout {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: 6px;
+  color: #c5d8e9; text-decoration: none; font-size: 13px;
+  transition: .18s;
+}
+.navigation a span, .logout span { width: 15px; text-align: center; font-size: 15px; }
+.navigation a:hover, .logout:hover { background: rgba(255,255,255,.1); color: white; }
+.navigation a.active {
+  color: white; background: var(--blue);
+  box-shadow: 0 4px 12px #001d3c55;
+}
+.logout { margin-top: auto; }
+.main-content {
+  width: min(1200px, calc(100% - 238px));
+  padding: 30px 38px; margin: 0 auto;
+}
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 2px 0 25px;
+}
+.eyebrow {
+  margin: 0 0 7px; color: var(--blue);
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+}
+h1 { margin: 0; color: #18334e; font-size: 25px; }
+.subtitle { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+.avatar {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border: 1px solid #c5e1fa; border-radius: 50%;
+  background: #dceeff; color: #0765b3; font-weight: 700;
+}
+.panel {
+  overflow: hidden; background: white;
+  border: 1px solid #e3eaf1; border-radius: 9px;
+  box-shadow: 0 5px 18px rgba(20,54,86,.055);
+}
+.panel-heading { padding: 21px 22px 17px; }
+.panel-heading h2 { margin: 0; color: #1d344b; font-size: 17px; }
+.panel-heading p { margin: 5px 0 0; color: #8492a2; font-size: 12px; }
+.form-content { padding: 0 22px 22px; }
+.form-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px 22px;
+}
+.field { display: grid; gap: 7px; }
+.field label { color: #40566c; font-size: 12px; font-weight: 650; }
+.field select {
+  width: 100%; min-height: 39px; padding: 9px 11px;
+  border: 1px solid #dce5ed; border-radius: 5px;
+  outline: none; background: #fff; color: #52677b;
+  font: inherit; font-size: 12px;
+}
+.field select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px #1685dc18;
+}
+.actions { display: flex; gap: 8px; margin-top: 20px; }
+button {
+  border-radius: 5px; padding: 9px 15px;
+  font: inherit; font-size: 12px; font-weight: 650; cursor: pointer;
+  transition: .18s;
+}
+.primary-btn {
+  color: white; background: var(--blue);
+  border: 1px solid var(--blue); box-shadow: 0 2px 5px #0875d126;
+}
+.primary-btn:hover { background: #0564b5; transform: translateY(-1px); }
+.secondary-btn { color: #52677b; background: white; border: 1px solid #dce5ed; }
+.secondary-btn:hover { background: #f5f8fb; }
+.page-foot { margin-top: 24px; color: #a0acb8; text-align: center; font-size: 11px; }
+.toast {
+  position: fixed; right: 22px; bottom: 22px;
+  padding: 11px 16px; border-radius: 6px;
+  color: white; background: #173b5d;
+  box-shadow: 0 8px 24px #00172d30; font-size: 12px;
+  opacity: 0; transform: translateY(8px);
+  pointer-events: none; transition: .22s;
+}
+.toast.show { opacity: 1; transform: none; }
+@media (max-width: 760px) {
+  .sidebar { width: 62px; padding: 14px 7px; }
+  .brand { justify-content: center; padding: 5px 0 24px; }
+  .brand span:last-child { display: none; }
+  .navigation a, .logout {
+    justify-content: center; padding: 12px 5px; gap: 0; font-size: 0;
+  }
+  .navigation a span, .logout span { font-size: 16px; }
+  .main-content { width: calc(100% - 62px); padding: 23px 15px; }
+  h1 { font-size: 21px; }
+}
+@media (max-width: 520px) {
+  .form-grid { grid-template-columns: 1fr; gap: 14px; }
+  .panel-heading { padding: 18px 16px 14px; }
+  .form-content { padding: 0 16px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">▦</span>
+      <span>Timetable Management System</span>
+    </div>
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="#"><span>⌂</span> Dashboard</a>
+      <a href="#"><span>♙</span> Teachers</a>
+      <a href="#"><span>▤</span> Subjects</a>
+      <a href="#"><span>▦</span> Classes</a>
+      <a href="#"><span>▣</span> Classrooms</a>
+      <a class="active" href="#" aria-current="page"><span>▦</span> Timetable</a>
+      <a href="#"><span>♟</span> Users</a>
+      <a href="#"><span>⚙</span> Settings</a>
+    </nav>
+    <a class="logout" href="#"><span>↪</span> Logout</a>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h1>Create Timetable</h1>
+        <p class="subtitle">Assign classes, subjects, teachers, and time slots.</p>
+      </div>
+      <div class="avatar" aria-label="Administrator">A</div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Create Timetable</h2>
+        <p>Fill in the details below to create a timetable entry.</p>
+      </div>
+
+      <div class="form-content">
+        <form id="timetableForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="classSelect">Class</label>
+              <select id="classSelect" required>
+                <option value="">Select Class</option>
+                <option>B.Tech ITE - 1st Year</option>
+                <option>B.Tech ITE - 2nd Year</option>
+                <option>B.Tech ITE - 3rd Year</option>
+                <option>B.Tech ITE - 4th Year</option>
+                <option>B.Tech CSE - 1st Year</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="subjectSelect">Subject</label>
+              <select id="subjectSelect" required>
+                <option value="">Select Subject</option>
+                <option>Data Structures</option>
+                <option>Database Management Systems</option>
+                <option>Computer Networks</option>
+                <option>Web Technologies</option>
+                <option>Machine Learning</option>
+                <option>Engineering Mathematics</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="teacherSelect">Teacher</label>
+              <select id="teacherSelect" required>
+                <option value="">Select Teacher</option>
+                <option>Dr. Sharma</option>
+                <option>Prof. Khan</option>
+                <option>Dr. Gupta</option>
+                <option>Prof. Singh</option>
+                <option>Dr. Ahmed</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="classroomSelect">Classroom</label>
+              <select id="classroomSelect" required>
+                <option value="">Select Classroom</option>
+                <option>Room 101</option>
+                <option>Room 102</option>
+                <option>Room 201</option>
+                <option>Computer Lab 1</option>
+                <option>Computer Lab 2</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="daySelect">Day</label>
+              <select id="daySelect" required>
+                <option value="">Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="timeSelect">Time Slot</label>
+              <select id="timeSelect" required>
+                <option value="">Select Time Slot</option>
+                <option>09:00 AM - 10:00 AM</option>
+                <option>10:00 AM - 11:00 AM</option>
+                <option>11:00 AM - 12:00 PM</option>
+                <option>12:00 PM - 01:00 PM</option>
+                <option>02:00 PM - 03:00 PM</option>
+                <option>03:00 PM - 04:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="primary-btn" type="submit">Save</button>
+            <button class="secondary-btn" type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <p class="page-foot">© 2026 Timetable Management System</p>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const form = document.getElementById("timetableForm");
+const toast = document.getElementById("toast");
+let toastTimer;
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const entry = {
+    className: document.getElementById("classSelect").value,
+    subject: document.getElementById("subjectSelect").value,
+    teacher: document.getElementById("teacherSelect").value,
+    classroom: document.getElementById("classroomSelect").value,
+    day: document.getElementById("daySelect").value,
+    time: document.getElementById("timeSelect").value
+  };
+
+  // Store entries locally in this browser for this demo.
+  const savedEntries = JSON.parse(localStorage.getItem("timetableEntries") || "[]");
+  savedEntries.push(entry);
+  localStorage.setItem("timetableEntries", JSON.stringify(savedEntries));
+
+  showToast("Timetable entry saved successfully!");
+  form.reset();
+});
+
+form.addEventListener("reset", function () {
+  showToast("Form has been reset.");
+});
+</script>
+</body>
+</html>
