@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Timetable Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f2f5f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 350px;
+            border: 5px solid #14569b;
+            border-radius: 7px;
+            overflow: hidden;
+
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            align-items: center;
+            gap: 30px;
+
+            padding: 25px 4%;
+
+            background:
+                linear-gradient(
+                    rgba(4, 48, 100, 0.78),
+                    rgba(4, 48, 100, 0.78)
+                ),
+                url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Left Side */
+        .left-section {
+            color: white;
+            text-align: center;
+        }
+
+        .calendar-icon {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 15px;
+        }
+
+        .left-section h1 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .left-section p {
+            font-size: 14px;
+        }
+
+        .left-section p span {
+            margin: 0 6px;
+        }
+
+        /* Login Box */
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            justify-self: center;
+            background: white;
+            padding: 28px 25px 24px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            font-size: 20px;
+            color: #17263d;
+            margin-bottom: 24px;
+        }
+
+        /* Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .input-group .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #53647a;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 40px;
+            padding: 10px 12px 10px 38px;
+            border: 1px solid #dce2e9;
+            border-radius: 4px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .input-group input:focus {
+            border-color: #0861bd;
+            box-shadow: 0 0 3px rgba(8, 97, 189, 0.3);
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            height: 40px;
+            background: #0861bd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #064b96;
+        }
+
+        /* Forgot Password */
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 11px;
+            color: #3976bd;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Message */
+        #message {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 650px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 25px 18px;
+            }
+
+            .left-section h1 {
+                font-size: 21px;
+            }
+
+            .login-box {
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Left Section -->
+        <div class="left-section">
+
+            <!-- Calendar Icon -->
+            <svg class="calendar-icon"
+                 viewBox="0 0 48 48"
+                 fill="none"
+                 stroke="white"
+                 stroke-width="2.5"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <rect x="7" y="10" width="34" height="31" rx="2"></rect>
+
+                <path d="M15 5v10"></path>
+                <path d="M33 5v10"></path>
+                <path d="M7 19h34"></path>
+
+                <path d="M15 25h3"></path>
+                <path d="M24 25h3"></path>
+                <path d="M33 25h1"></path>
+
+                <path d="M15 32h3"></path>
+                <path d="M24 32h3"></path>
+                <path d="M33 32h1"></path>
+
+            </svg>
+
+            <h1>Timetable Management System</h1>
+
+            <p>
+                Plan <span>•</span>
+                Manage <span>•</span>
+                Organize
+            </p>
+
+        </div>
+
+        <!-- Right Section: Login Form -->
+        <div class="login-box">
+
+            <h2>Admin Login</h2>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+                    <span class="icon">♙</span>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">♙</span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Login
+                </button>
+
+                <a href="#" class="forgot-password" id="forgotPassword">
+                    Forgot Password?
+                </a>
+
+                <p id="message"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Login form functionality
+        document.getElementById("loginForm").addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const username = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value;
+                const message = document.getElementById("message");
+
+                if (username === "" || password === "") {
+                    message.style.color = "red";
+                    message.textContent = "Please enter your username and password.";
+                    return;
+                }
+
+                message.style.color = "green";
+                message.textContent = "Login form submitted successfully (demo only).";
+
+            }
+        );
+
+        // Forgot Password functionality
+        document.getElementById("forgotPassword").addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                const message = document.getElementById("message");
+
+                message.style.color = "#3976bd";
+
+                message.textContent =
+                    "Please contact your administrator to reset your password.";
+
+            }
+        );
+    </script>
+
+</body>
+</html>
