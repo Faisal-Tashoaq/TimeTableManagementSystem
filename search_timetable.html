@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search / Filter Timetable | Timetable Management System</title>
+<style>
+:root {
+  --navy: #07345c;
+  --navy-dark: #062a4b;
+  --blue: #0875d1;
+  --ink: #24364b;
+  --muted: #718096;
+  --line: #e4ebf2;
+  --page: #f3f7fb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: var(--page);
+  color: var(--ink); font: 14px "Segoe UI", Arial, sans-serif;
+}
+.app-shell { min-height: 100vh; display: flex; }
+.sidebar {
+  width: 238px; min-height: 100vh; flex-shrink: 0;
+  display: flex; flex-direction: column; padding: 18px 12px;
+  color: #d8e8f7;
+  background: linear-gradient(180deg, var(--navy), var(--navy-dark));
+}
+.brand {
+  display: flex; align-items: center; gap: 9px;
+  padding: 4px 8px 26px; color: white;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+}
+.brand-icon {
+  width: 25px; height: 25px; display: grid; place-items: center;
+  border-radius: 7px; background: #0d75c7; font-size: 17px;
+}
+.navigation { display: grid; gap: 5px; }
+.navigation a, .logout {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: 6px;
+  color: #c5d8e9; text-decoration: none; font-size: 13px;
+  transition: .18s;
+}
+.navigation a span, .logout span {
+  width: 15px; text-align: center; font-size: 15px;
+}
+.navigation a:hover, .logout:hover {
+  background: rgba(255,255,255,.1); color: white;
+}
+.navigation a.active {
+  background: var(--blue); color: white;
+  box-shadow: 0 4px 12px #001d3c55;
+}
+.logout { margin-top: auto; }
+.main-content {
+  width: min(1200px, calc(100% - 238px));
+  margin: 0 auto; padding: 30px 38px;
+}
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 2px 0 25px;
+}
+.eyebrow {
+  margin: 0 0 7px; color: var(--blue);
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+}
+h1 { margin: 0; color: #18334e; font-size: 25px; }
+.subtitle { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+.avatar {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border: 1px solid #c5e1fa; border-radius: 50%;
+  background: #dceeff; color: #0765b3; font-weight: 700;
+}
+.panel {
+  overflow: hidden; background: white;
+  border: 1px solid #e3eaf1; border-radius: 9px;
+  box-shadow: 0 5px 18px rgba(20,54,86,.055);
+}
+.panel-heading { padding: 21px 22px 15px; }
+.panel-heading h2 { margin: 0; color: #1d344b; font-size: 17px; }
+.panel-heading p { margin: 5px 0 0; color: #8492a2; font-size: 12px; }
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(200px, 1.5fr) auto;
+  align-items: end; gap: 14px;
+  padding: 0 22px 18px;
+}
+.field { display: grid; gap: 7px; min-width: 0; }
+.field label { color: #40566c; font-size: 12px; font-weight: 650; }
+.field select {
+  width: 100%; min-height: 36px; padding: 8px 10px;
+  border: 1px solid #dce5ed; border-radius: 5px;
+  background: white; color: #52677b; outline: none;
+  font: inherit; font-size: 12px;
+}
+.field select:focus {
+  border-color: var(--blue); box-shadow: 0 0 0 3px #1685dc18;
+}
+button {
+  border-radius: 5px; padding: 9px 17px;
+  font: inherit; font-size: 12px; font-weight: 650;
+  cursor: pointer; transition: .18s;
+}
+.primary-btn {
+  color: white; background: var(--blue);
+  border: 1px solid var(--blue); box-shadow: 0 2px 5px #0875d126;
+}
+.primary-btn:hover { background: #0564b5; transform: translateY(-1px); }
+.table-wrap { overflow-x: auto; padding: 0 22px 20px; }
+table {
+  width: 100%; min-width: 680px;
+  border-collapse: collapse; border: 1px solid #e5ebf1;
+}
+thead { background: #f1f6fb; }
+th {
+  padding: 11px 12px; color: #51677d; text-align: left;
+  font-size: 11px; font-weight: 700;
+  border: 1px solid #e5ebf1; white-space: nowrap;
+}
+td {
+  padding: 11px 12px; color: #42576b; text-align: left;
+  font-size: 12px; border: 1px solid #e9eef3; white-space: nowrap;
+}
+tbody tr:hover { background: #f8fbfe; }
+.empty-state {
+  padding: 25px 12px; color: #8795a4;
+  text-align: center; font-size: 12px;
+}
+.panel-footer {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 13px 22px; border-top: 1px solid #edf1f5;
+  color: #8795a4; font-size: 11px;
+}
+.page-foot {
+  margin-top: 24px; color: #a0acb8;
+  text-align: center; font-size: 11px;
+}
+.toast {
+  position: fixed; right: 22px; bottom: 22px;
+  padding: 11px 16px; border-radius: 6px;
+  color: white; background: #173b5d;
+  box-shadow: 0 8px 24px #00172d30; font-size: 12px;
+  opacity: 0; transform: translateY(8px);
+  pointer-events: none; transition: .22s;
+}
+.toast.show { opacity: 1; transform: none; }
+@media (max-width: 760px) {
+  .sidebar { width: 62px; padding: 14px 7px; }
+  .brand { justify-content: center; padding: 5px 0 24px; }
+  .brand span:last-child { display: none; }
+  .navigation a, .logout {
+    justify-content: center; padding: 12px 5px; gap: 0; font-size: 0;
+  }
+  .navigation a span, .logout span { font-size: 16px; }
+  .main-content { width: calc(100% - 62px); padding: 23px 15px; }
+  h1 { font-size: 21px; }
+}
+@media (max-width: 520px) {
+  .search-form { grid-template-columns: 1fr; padding: 0 16px 16px; }
+  .panel-heading { padding: 18px 16px 14px; }
+  .table-wrap { padding: 0 16px 16px; }
+  .panel-footer { padding: 12px 16px; flex-direction: column; }
+  .search-form .primary-btn { justify-self: start; }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">▦</span>
+      <span>Timetable Management System</span>
+    </div>
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="#"><span>⌂</span> Dashboard</a>
+      <a href="#"><span>♙</span> Teachers</a>
+      <a href="#"><span>▤</span> Subjects</a>
+      <a href="#"><span>▦</span> Classes</a>
+      <a href="#"><span>▣</span> Classrooms</a>
+      <a class="active" href="#" aria-current="page"><span>▦</span> Timetable</a>
+      <a href="#"><span>♟</span> Users</a>
+      <a href="#"><span>⚙</span> Settings</a>
+    </nav>
+    <a class="logout" href="#"><span>↪</span> Logout</a>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h1>Search / Filter Timetable</h1>
+        <p class="subtitle">Find timetable entries using different filters.</p>
+      </div>
+      <div class="avatar" aria-label="Administrator">A</div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Search Timetable</h2>
+        <p>Choose a search option and enter a value to find timetable entries.</p>
+      </div>
+
+      <form class="search-form" id="searchForm">
+        <div class="field">
+          <label for="searchOption">Select Option</label>
+          <select id="searchOption">
+            <option value="subject">By Subject</option>
+            <option value="teacher">By Teacher</option>
+            <option value="className">By Class</option>
+            <option value="day">By Day</option>
+            <option value="room">By Room</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="searchValue">Value</label>
+          <select id="searchValue"></select>
+        </div>
+        <button class="primary-btn" type="submit">Search</button>
+      </form>
+
+      <div class="table-wrap">
+        <table aria-label="Filtered timetable entries">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Subject</th>
+              <th>Teacher</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Room</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" hidden>No timetable entries match your search.</div>
+      </div>
+
+      <div class="panel-footer">
+        <span id="resultCount">Showing 3 timetable entries</span>
+        <span>Timetable Management System</span>
+      </div>
+    </section>
+
+    <p class="page-foot">© 2026 Timetable Management System</p>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const timetableEntries = [
+  { className: "B.Tech ITE 5th Sem-A", subject: "DBMS", teacher: "Dr. Abhi Ahmad", day: "Monday", time: "9:00 - 10:00", room: "R-102" },
+  { className: "B.Tech ITE 5th Sem-A", subject: "DBMS", teacher: "Dr. Abhi Ahmad", day: "Wednesday", time: "9:00 - 10:00", room: "R-102" },
+  { className: "B.Tech ITE 5th Sem-B", subject: "DBMS", teacher: "Prof. Imran", day: "Friday", time: "10:00 - 11:00", room: "R-104" },
+  { className: "B.Tech ITE 5th Sem-A", subject: "Java", teacher: "Dr. Sharma", day: "Tuesday", time: "10:00 - 11:00", room: "R-103" },
+  { className: "B.Tech ITE 5th Sem-A", subject: "Computer Networks", teacher: "Prof. Khan", day: "Thursday", time: "11:00 - 12:00", room: "R-105" },
+  { className: "B.Tech CSE 5th Sem-A", subject: "DBMS", teacher: "Dr. Abhi Ahmad", day: "Friday", time: "9:00 - 10:00", room: "R-102" },
+  { className: "B.Tech ITE 5th Sem-B", subject: "Machine Learning", teacher: "Dr. Gupta", day: "Tuesday", time: "1:00 - 2:00", room: "Lab-1" }
+];
+
+const optionSelect = document.getElementById("searchOption");
+const valueSelect = document.getElementById("searchValue");
+const resultsBody = document.getElementById("resultsBody");
+const emptyState = document.getElementById("emptyState");
+const resultCount = document.getElementById("resultCount");
+const toast = document.getElementById("toast");
+let toastTimer;
+
+const optionLabels = {
+  subject: "Subject",
+  teacher: "Teacher",
+  className: "Class",
+  day: "Day",
+  room: "Room"
+};
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  }[character]));
+}
+
+function updateValueOptions() {
+  const key = optionSelect.value;
+  const values = [...new Set(timetableEntries.map(entry => entry[key]))].sort();
+  valueSelect.innerHTML = values.map(value =>
+    `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`
+  ).join("");
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+function renderResults(matches) {
+  resultsBody.innerHTML = matches.map(entry => `
+    <tr>
+      <td>${escapeHTML(entry.className)}</td>
+      <td>${escapeHTML(entry.subject)}</td>
+      <td>${escapeHTML(entry.teacher)}</td>
+      <td>${escapeHTML(entry.day)}</td>
+      <td>${escapeHTML(entry.time)}</td>
+      <td>${escapeHTML(entry.room)}</td>
+    </tr>
+  `).join("");
+
+  emptyState.hidden = matches.length !== 0;
+  resultCount.textContent = `Showing ${matches.length} timetable entr${matches.length === 1 ? "y" : "ies"}`;
+}
+
+function searchTimetable(event) {
+  event.preventDefault();
+  const key = optionSelect.value;
+  const value = valueSelect.value;
+  const matches = timetableEntries.filter(entry => entry[key] === value);
+  renderResults(matches);
+  showToast(`${matches.length} matching timetable entr${matches.length === 1 ? "y" : "ies"} found.`);
+}
+
+optionSelect.addEventListener("change", updateValueOptions);
+document.getElementById("searchForm").addEventListener("submit", searchTimetable);
+
+updateValueOptions();
+renderResults(timetableEntries.filter(entry => entry.subject === "DBMS"));
+</script>
+</body>
+</html>

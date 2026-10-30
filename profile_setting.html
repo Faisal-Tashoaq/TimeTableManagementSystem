@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile / Settings | Timetable Management System</title>
+<style>
+:root {
+  --navy:#07345c; --navy-dark:#062a4b; --blue:#0875d1;
+  --ink:#24364b; --muted:#718096; --line:#e4ebf2; --page:#f3f7fb;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--page);color:var(--ink);font:14px "Segoe UI",Arial,sans-serif}
+.app-shell{min-height:100vh;display:flex}
+.sidebar{width:238px;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column;padding:18px 12px;color:#d8e8f7;background:linear-gradient(180deg,var(--navy),var(--navy-dark))}
+.brand{display:flex;align-items:center;gap:9px;padding:4px 8px 26px;color:white;font-size:12px;font-weight:700;white-space:nowrap}
+.brand-icon{width:25px;height:25px;display:grid;place-items:center;border-radius:7px;background:#0d75c7;font-size:17px}
+.navigation{display:grid;gap:5px}
+.navigation a,.logout{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:6px;color:#c5d8e9;text-decoration:none;font-size:13px;transition:.18s}
+.navigation a span,.logout span{width:15px;text-align:center;font-size:15px}
+.navigation a:hover,.logout:hover{background:#ffffff1a;color:white}
+.navigation a.active{background:var(--blue);color:white;box-shadow:0 4px 12px #001d3c55}
+.logout{margin-top:auto}
+.main-content{width:min(1200px,calc(100% - 238px));margin:0 auto;padding:30px 38px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin:2px 0 25px}
+.eyebrow{margin:0 0 7px;color:var(--blue);font-size:10px;font-weight:700;letter-spacing:1.2px}
+h1{margin:0;color:#18334e;font-size:25px}
+.subtitle{margin:7px 0 0;color:var(--muted);font-size:13px}
+.avatar{width:36px;height:36px;display:grid;place-items:center;border:1px solid #c5e1fa;border-radius:50%;background:#dceeff;color:#0765b3;font-weight:700}
+.panel{overflow:hidden;background:white;border:1px solid #e3eaf1;border-radius:9px;box-shadow:0 5px 18px #1436560e}
+.panel-heading{padding:21px 22px 15px}
+.panel-heading h2{margin:0;color:#1d344b;font-size:17px}
+.panel-heading p{margin:5px 0 0;color:#8492a2;font-size:12px}
+.profile-layout{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(300px,1.5fr);gap:18px;padding:0 22px 22px}
+.profile-card,.form-card{border:1px solid #e4ebf2;border-radius:6px;background:#fff}
+.profile-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px 18px;min-height:210px}
+.profile-icon{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#0b65b5;color:white;margin-bottom:12px}
+.profile-icon svg{width:35px;height:35px;fill:currentColor}
+.profile-card h3{margin:0 0 5px;font-size:14px;color:#263f58}
+.profile-card p{margin:2px 0;color:#8492a2;font-size:12px;overflow-wrap:anywhere}
+.role{margin-top:5px!important;color:#718096!important}
+.form-card{padding:17px}
+form{display:grid;gap:12px}
+.field{display:grid;gap:6px}
+.field label{font-size:11px;font-weight:650;color:#40566c}
+.field input{width:100%;height:34px;padding:8px 10px;border:1px solid #dce5ed;border-radius:5px;outline:none;background:#fff;color:#34495e;font:inherit;font-size:12px}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1685dc18}
+.field input:disabled{background:#f7f9fb;color:#718096}
+.actions{display:flex;gap:8px;margin-top:1px}
+button{border-radius:5px;padding:8px 14px;font:inherit;font-size:11px;font-weight:650;cursor:pointer;transition:.18s}
+.primary-btn{color:white;background:var(--blue);border:1px solid var(--blue);box-shadow:0 2px 5px #0875d126}
+.primary-btn:hover{background:#0564b5;transform:translateY(-1px)}
+.secondary-btn{color:#52677b;background:white;border:1px solid #dce5ed}
+.secondary-btn:hover{background:#f5f8fb}
+.page-foot{margin-top:24px;color:#a0acb8;text-align:center;font-size:11px}
+.toast{position:fixed;right:22px;bottom:22px;padding:11px 16px;border-radius:6px;color:white;background:#173b5d;box-shadow:0 8px 24px #00172d30;font-size:12px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.22s}
+.toast.show{opacity:1;transform:none}
+@media(max-width:760px){
+ .sidebar{width:62px;padding:14px 7px}.brand{justify-content:center;padding:5px 0 24px}.brand span:last-child{display:none}
+ .navigation a,.logout{justify-content:center;padding:12px 5px;gap:0;font-size:0}.navigation a span,.logout span{font-size:16px}
+ .main-content{width:calc(100% - 62px);padding:23px 15px}h1{font-size:21px}
+}
+@media(max-width:560px){
+ .profile-layout{grid-template-columns:1fr;padding:0 16px 16px}
+ .panel-heading{padding:18px 16px 14px}
+ .profile-card{min-height:170px}
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+ <aside class="sidebar">
+  <div class="brand"><span class="brand-icon">▦</span><span>Timetable Management System</span></div>
+  <nav class="navigation" aria-label="Main navigation">
+   <a href="#"><span>⌂</span> Dashboard</a>
+   <a href="#"><span>♙</span> Teachers</a>
+   <a href="#"><span>▤</span> Subjects</a>
+   <a href="#"><span>▦</span> Classes</a>
+   <a href="#"><span>▣</span> Classrooms</a>
+   <a href="#"><span>▦</span> Timetable</a>
+   <a href="#"><span>♟</span> Users</a>
+   <a class="active" href="#" aria-current="page"><span>⚙</span> Settings</a>
+  </nav>
+  <a class="logout" href="#"><span>↪</span> Logout</a>
+ </aside>
+
+ <main class="main-content">
+  <header class="topbar">
+   <div>
+    <p class="eyebrow">ADMINISTRATION</p>
+    <h1>Profile / Settings</h1>
+    <p class="subtitle">Manage your administrator profile and account settings.</p>
+   </div>
+   <div class="avatar" aria-label="Administrator">A</div>
+  </header>
+
+  <section class="panel">
+   <div class="panel-heading">
+    <h2>My Profile</h2>
+    <p>View and update your account information.</p>
+   </div>
+
+   <div class="profile-layout">
+    <section class="profile-card" aria-label="Profile summary">
+     <div class="profile-icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.2 4.2 0 1 0 0-8.4A4.2 4.2 0 0 0 12 12Zm0 2c-4.15 0-7.5 2.12-7.5 4.75V21h15v-2.25C19.5 16.12 16.15 14 12 14Z"/></svg>
+     </div>
+     <h3 id="profileName">Admin</h3>
+     <p id="profileEmail">admin@college.in</p>
+     <p class="role">Role: Administrator</p>
+    </section>
+
+    <section class="form-card">
+     <form id="profileForm">
+      <div class="field">
+       <label for="fullName">Full Name</label>
+       <input id="fullName" name="fullName" type="text" value="Admin" maxlength="60" required>
+      </div>
+      <div class="field">
+       <label for="email">Email</label>
+       <input id="email" name="email" type="email" value="admin@college.in" maxlength="100" required>
+      </div>
+      <div class="field">
+       <label for="password">Change Password</label>
+       <input id="password" name="password" type="password" placeholder="Enter new password (optional)" minlength="6" autocomplete="new-password">
+      </div>
+      <div class="actions">
+       <button class="primary-btn" type="submit">Update Profile</button>
+       <button class="secondary-btn" type="reset">Reset</button>
+      </div>
+     </form>
+    </section>
+   </div>
+  </section>
+  <p class="page-foot">© 2026 Timetable Management System</p>
+ </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const profileForm = document.getElementById("profileForm");
+const fullNameInput = document.getElementById("fullName");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const profileName = document.getElementById("profileName");
+const profileEmail = document.getElementById("profileEmail");
+const toast = document.getElementById("toast");
+let toastTimer;
+
+function showToast(message) {
+ toast.textContent = message;
+ toast.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+function loadProfile() {
+ const saved = JSON.parse(localStorage.getItem("adminProfile") || "null");
+ if (saved) {
+  fullNameInput.value = saved.name || "Admin";
+  emailInput.value = saved.email || "admin@college.in";
+  profileName.textContent = fullNameInput.value;
+  profileEmail.textContent = emailInput.value;
+ }
+}
+
+profileForm.addEventListener("submit", function(event) {
+ event.preventDefault();
+
+ const name = fullNameInput.value.trim();
+ const email = emailInput.value.trim();
+ const password = passwordInput.value;
+
+ if (!name || !email) {
+  showToast("Please fill in your name and email.");
+  return;
+ }
+ if (password && password.length < 6) {
+  showToast("Password must contain at least 6 characters.");
+  return;
+ }
+
+ // Demo only: save profile details locally. Do not store passwords in localStorage.
+ localStorage.setItem("adminProfile", JSON.stringify({ name, email }));
+ profileName.textContent = name;
+ profileEmail.textContent = email;
+ passwordInput.value = "";
+
+ showToast(password ? "Profile updated. Password changes need a secure backend." : "Profile updated successfully.");
+});
+
+profileForm.addEventListener("reset", function() {
+ setTimeout(() => {
+  profileName.textContent = fullNameInput.value;
+  profileEmail.textContent = emailInput.value;
+  showToast("Form has been reset.");
+ }, 0);
+});
+
+loadProfile();
+</script>
+</body>
+</html>
