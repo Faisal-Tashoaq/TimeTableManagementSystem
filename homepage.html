@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Management System</title>
+
+    <!-- CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #1e3a5f;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .sidebar li:hover,
+        .sidebar li.active {
+            background: #34577f;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            color: #1e3a5f;
+            font-size: 28px;
+        }
+
+        .admin {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .welcome {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #666;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #1e3a5f;
+            font-size: 30px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-top: 35px;
+        }
+
+        .quick-actions h2,
+        .activity h2 {
+            margin-bottom: 20px;
+            color: #1e3a5f;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        button {
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #34577f;
+        }
+
+        /* Recent Activity */
+        .activity {
+            margin-top: 35px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #1e3a5f;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>TimeTable</h2>
+
+            <ul>
+                <li class="active" onclick="showPage('Dashboard')">Dashboard</li>
+                <li onclick="showPage('Add Teacher')">Add Teacher</li>
+                <li onclick="showPage('Manage Teachers')">Manage Teachers</li>
+                <li onclick="showPage('Manage Subjects')">Manage Subjects</li>
+                <li onclick="showPage('Create Timetable')">Create Timetable</li>
+                <li onclick="showPage('View Timetable')">View Timetable</li>
+                <li onclick="showPage('Settings')">Settings</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="admin">Administrator</div>
+            </header>
+
+            <p class="welcome">
+                Welcome to Timetable Management System!
+            </p>
+
+            <!-- Cards -->
+            <div class="dashboard-cards">
+
+                <div class="card">
+                    <h3>Total Teachers</h3>
+                    <h2>25</h2>
+                </div>
+
+                <div class="card">
+                    <h3>Total Subjects</h3>
+                    <h2>12</h2>
+                </div>
+
+                <div class="card">
+                    <h3>Total Classrooms</h3>
+                    <h2>10</h2>
+                </div>
+
+                <div class="card">
+                    <h3>Total Timetables</h3>
+                    <h2>8</h2>
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+
+                <div class="action-buttons">
+                    <button onclick="showPage('Add Teacher')">Add Teacher</button>
+                    <button onclick="showPage('Manage Subjects')">Manage Subjects</button>
+                    <button onclick="showPage('Create Timetable')">Create Timetable</button>
+                    <button onclick="showPage('View Timetable')">View Timetable</button>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity">
+                <h2>Recent Activity</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Dashboard Created</td>
+                            <td>Today</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>System Setup</td>
+                            <td>Today</td>
+                            <td>Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function showPage(pageName) {
+
+            document.getElementById("pageTitle").textContent = pageName;
+
+            const menuItems = document.querySelectorAll(".sidebar li");
+
+            menuItems.forEach(function(item) {
+                item.classList.remove("active");
+            });
+
+            menuItems.forEach(function(item) {
+                if (item.textContent.trim() === pageName) {
+                    item.classList.add("active");
+                }
+            });
+
+            console.log(pageName + " selected");
+        }
+    </script>
+
+</body>
+</html>
