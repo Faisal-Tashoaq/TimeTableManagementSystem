@@ -1,0 +1,914 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Classroom Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7fc;
+    color: #18365d;
+}
+
+/* TOPBAR */
+
+.topbar {
+    height: 65px;
+    background: #173d69;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.logo i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-info i {
+    font-size: 23px;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 230px;
+    height: calc(100vh - 65px);
+    background: #102b4c;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    color: #9eb9d9;
+    font-size: 12px;
+    padding: 10px 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: block;
+    color: #dce8f7;
+    text-decoration: none;
+    padding: 14px 22px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    width: 30px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #168cff;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    border-top: 1px solid #36516f;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 230px;
+    padding: 95px 30px 30px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+}
+
+.page-heading p {
+    color: #71849e;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+/* SUMMARY CARDS */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-card h3 {
+    color: #7589a3;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.summary-card h2 {
+    font-size: 27px;
+}
+
+.summary-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.blue {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.green {
+    background: #ddf7e9;
+    color: #0b9c62;
+}
+
+.purple {
+    background: #eee8ff;
+    color: #7450d8;
+}
+
+/* PANELS */
+
+.panel {
+    background: white;
+    padding: 23px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    margin-bottom: 25px;
+}
+
+.panel h2 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+/* FORM */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+    font-size: 13px;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #168cff;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 11px 19px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #168cff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e8eef6;
+    color: #173d69;
+}
+
+.btn:hover {
+    opacity: 0.88;
+}
+
+/* SEARCH */
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.search-box input {
+    width: 350px;
+    max-width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #168cff;
+}
+
+#recordCount {
+    font-size: 13px;
+    color: #71849e;
+}
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 13px;
+}
+
+th {
+    background: #f5f8fc;
+    color: #7589a3;
+    font-weight: 600;
+}
+
+td {
+    color: #425b7a;
+}
+
+.action-btn {
+    border: none;
+    padding: 7px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.edit-btn {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.delete-btn {
+    background: #ffe6e6;
+    color: #dc3545;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 25px;
+    color: #8495aa;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1100px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 750px) {
+    .sidebar {
+        width: 65px;
+    }
+
+    .sidebar h3,
+    .sidebar a span {
+        display: none;
+    }
+
+    .sidebar a {
+        text-align: center;
+        padding: 16px 5px;
+    }
+
+    .sidebar a i {
+        width: auto;
+    }
+
+    .main {
+        margin-left: 65px;
+        padding: 90px 15px 20px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading h1 {
+        font-size: 22px;
+    }
+}
+
+@media(max-width: 480px) {
+    .admin-info span {
+        display: none;
+    }
+
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="logo">
+        <i class="fa-regular fa-calendar-days"></i>
+        Timetable Management
+    </div>
+
+    <div class="admin-info">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>Administrator</span>
+    </div>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <h3>Main Menu</h3>
+
+    <a href="admin-dashboard.html">
+        <i class="fa-solid fa-gauge"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="teachers.html">
+        <i class="fa-solid fa-users"></i>
+        <span>Teachers</span>
+    </a>
+
+    <a href="subjects.html">
+        <i class="fa-solid fa-book"></i>
+        <span>Subjects</span>
+    </a>
+
+    <a href="classes.html">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Classes</span>
+    </a>
+
+    <a href="classrooms.html" class="active">
+        <i class="fa-solid fa-door-open"></i>
+        <span>Classrooms</span>
+    </a>
+
+    <a href="timetable.html">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Timetable</span>
+    </a>
+
+    <h3>Account</h3>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Profile / Settings</span>
+    </a>
+
+    <a href="Firstpage.html" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+        <h1>Classroom Management</h1>
+        <p>Add, manage and organize classrooms.</p>
+    </div>
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Rooms</h3>
+                <h2 id="totalRooms">0</h2>
+            </div>
+            <div class="summary-icon blue">
+                <i class="fa-solid fa-door-open"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Capacity</h3>
+                <h2 id="totalCapacity">0</h2>
+            </div>
+            <div class="summary-icon green">
+                <i class="fa-solid fa-users"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Room Types</h3>
+                <h2 id="totalTypes">0</h2>
+            </div>
+            <div class="summary-icon purple">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ADD CLASSROOM FORM -->
+
+    <section class="panel">
+
+        <h2 id="formTitle">Add New Classroom</h2>
+
+        <form id="classroomForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="roomName">Room Name / Number</label>
+                    <input
+                        type="text"
+                        id="roomName"
+                        placeholder="Example: Room 101"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="building">Building / Block</label>
+                    <input
+                        type="text"
+                        id="building"
+                        placeholder="Example: Block A"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="roomType">Room Type</label>
+                    <select id="roomType" required>
+                        <option value="">Select Room Type</option>
+                        <option value="Classroom">Classroom</option>
+                        <option value="Laboratory">Laboratory</option>
+                        <option value="Seminar Hall">Seminar Hall</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="capacity">Room Capacity</label>
+                    <input
+                        type="number"
+                        id="capacity"
+                        placeholder="Enter room capacity"
+                        min="1"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-buttons">
+
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Classroom
+                </button>
+
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Reset
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <!-- CLASSROOM LIST -->
+
+    <section class="panel">
+
+        <h2>Classroom List</h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search classroom..."
+                oninput="displayClassrooms()"
+            >
+
+            <span id="recordCount">Showing: 0 / 0</span>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Room Name</th>
+                        <th>Building</th>
+                        <th>Room Type</th>
+                        <th>Capacity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="classroomTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// Load classroom data from localStorage
+
+let classrooms = JSON.parse(localStorage.getItem("classrooms")) || [];
+
+let editIndex = -1;
+
+
+// Save classroom data
+
+function saveData() {
+
+    localStorage.setItem("classrooms", JSON.stringify(classrooms));
+
+}
+
+
+// Update summary cards
+
+function updateSummary() {
+
+    document.getElementById("totalRooms").textContent =
+        classrooms.length;
+
+    let totalCapacity = classrooms.reduce(function(total, room) {
+        return total + Number(room.capacity);
+    }, 0);
+
+    document.getElementById("totalCapacity").textContent =
+        totalCapacity;
+
+    let roomTypes = [...new Set(
+        classrooms.map(room => room.type)
+    )];
+
+    document.getElementById("totalTypes").textContent =
+        roomTypes.length;
+
+}
+
+
+// Display classrooms
+
+function displayClassrooms() {
+
+    const tableBody = document.getElementById("classroomTableBody");
+
+    const searchValue = document.getElementById("searchInput")
+        .value.toLowerCase().trim();
+
+    tableBody.innerHTML = "";
+
+    let filteredClassrooms = classrooms
+        .map(function(room, index) {
+            return { room, index };
+        })
+        .filter(function(item) {
+
+            let room = item.room;
+
+            return (
+                String(room.name).toLowerCase().includes(searchValue) ||
+                String(room.building).toLowerCase().includes(searchValue) ||
+                String(room.type).toLowerCase().includes(searchValue) ||
+                String(room.capacity).includes(searchValue)
+            );
+
+        });
+
+    if (filteredClassrooms.length === 0) {
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 5;
+        cell.className = "empty-message";
+        cell.textContent = "No classrooms found.";
+
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+
+    }
+
+    filteredClassrooms.forEach(function(item) {
+
+        let room = item.room;
+        let index = item.index;
+
+        let row = document.createElement("tr");
+
+        [
+            room.name,
+            room.building,
+            room.type,
+            room.capacity
+        ].forEach(function(value) {
+
+            let cell = document.createElement("td");
+            cell.textContent = value;
+
+            row.appendChild(cell);
+
+        });
+
+        let actionCell = document.createElement("td");
+
+        let editButton = document.createElement("button");
+        editButton.className = "action-btn edit-btn";
+        editButton.title = "Edit";
+        editButton.innerHTML = '<i class="fa-solid fa-pen"></i>';
+
+        editButton.onclick = function() {
+            editClassroom(index);
+        };
+
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "action-btn delete-btn";
+        deleteButton.title = "Delete";
+        deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+        deleteButton.onclick = function() {
+            deleteClassroom(index);
+        };
+
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(actionCell);
+
+        tableBody.appendChild(row);
+
+    });
+
+    document.getElementById("recordCount").textContent =
+        "Showing: " + filteredClassrooms.length +
+        " / " + classrooms.length;
+
+    updateSummary();
+
+}
+
+
+// Add or update classroom
+
+document.getElementById("classroomForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let name = document.getElementById("roomName").value.trim();
+    let building = document.getElementById("building").value.trim();
+    let type = document.getElementById("roomType").value;
+    let capacity = Number(document.getElementById("capacity").value);
+
+    if (!name || !building || !type || !capacity || capacity < 1) {
+        alert("Please enter valid classroom details.");
+        return;
+    }
+
+    // Check for duplicate room names
+
+    let duplicate = classrooms.some(function(room, index) {
+
+        return (
+            room.name.toLowerCase() === name.toLowerCase() &&
+            index !== editIndex
+        );
+
+    });
+
+    if (duplicate) {
+        alert("A classroom with this name already exists.");
+        return;
+    }
+
+    let classroom = {
+        name: name,
+        building: building,
+        type: type,
+        capacity: capacity
+    };
+
+    if (editIndex === -1) {
+
+        classrooms.push(classroom);
+        alert("Classroom added successfully!");
+
+    } else {
+
+        classrooms[editIndex] = classroom;
+        alert("Classroom updated successfully!");
+
+    }
+
+    saveData();
+
+    resetForm();
+
+    displayClassrooms();
+
+});
+
+
+// Edit classroom
+
+function editClassroom(index) {
+
+    let room = classrooms[index];
+
+    document.getElementById("roomName").value = room.name;
+    document.getElementById("building").value = room.building;
+    document.getElementById("roomType").value = room.type;
+    document.getElementById("capacity").value = room.capacity;
+
+    editIndex = index;
+
+    document.getElementById("formTitle").textContent =
+        "Update Classroom";
+
+    document.getElementById("submitBtn").innerHTML =
+        '<i class="fa-solid fa-check"></i> Update Classroom';
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// Delete classroom
+
+function deleteClassroom(index) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this classroom?"
+    );
+
+    if (confirmDelete) {
+
+        classrooms.splice(index, 1);
+
+        saveData();
+
+        if (editIndex === index) {
+            resetForm();
+        } else if (editIndex > index) {
+            editIndex--;
+        }
+
+        displayClassrooms();
+
+        alert("Classroom deleted successfully!");
+
+    }
+
+}
+
+
+// Reset form
+
+function resetForm() {
+
+    document.getElementById("classroomForm").reset();
+
+    editIndex = -1;
+
+    document.getElementById("formTitle").textContent =
+        "Add New Classroom";
+
+    document.getElementById("submitBtn").innerHTML =
+        '<i class="fa-solid fa-plus"></i> Add Classroom';
+
+}
+
+
+// Initial display
+
+displayClassrooms();
+
+</script>
+
+</body>
+</html>

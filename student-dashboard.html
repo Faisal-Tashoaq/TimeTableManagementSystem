@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f4f7fb;color:#24364b}
+.navbar{height:52px;background:#073b68;color:white;display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+.container{display:flex;min-height:calc(100vh - 52px)}
+.sidebar{width:205px;background:#073b68;color:white}
+.sidebar ul{list-style:none;padding-top:14px}
+.sidebar li{padding:14px;font-size:13px;cursor:pointer;border-left:3px solid transparent}
+.sidebar li:hover,.sidebar li.active{background:#087bd0;border-left-color:white}
+.sidebar li span{display:inline-block;width:25px}
+.main{flex:1;padding:25px}
+.welcome h2{color:#183b5e;font-size:22px;margin-bottom:7px}
+.welcome p{color:#60758a;font-size:13px;margin-bottom:22px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{min-height:105px;border-radius:8px;padding:15px;display:flex;align-items:center;gap:12px;color:white}
+.card-icon{width:40px;height:40px;background:#ffffff38;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:21px}
+.card h2{font-size:23px;margin-bottom:5px}.card p{font-size:12px}
+.blue{background:linear-gradient(120deg,#1685dc,#48b5ef)}
+.green{background:linear-gradient(120deg,#20ad76,#59d49b)}
+.orange{background:linear-gradient(120deg,#f29b20,#ffca61)}
+.purple{background:linear-gradient(120deg,#8751db,#b18af4)}
+.section{margin-top:25px}.section h3{font-size:16px;color:#183b5e;margin-bottom:13px}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.action{min-height:76px;background:white;border:1px solid #e1e8f0;border-radius:7px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.action:hover{box-shadow:0 3px 10px #00000016}
+.action-icon{width:34px;height:34px;border-radius:6px;background:#e6f2ff;color:#1685dc;display:flex;align-items:center;justify-content:center;font-size:18px}
+.action p{font-size:12px;color:#40566c}
+.notice{margin-top:22px;background:white;border:1px solid #e1e8f0;border-radius:7px;padding:17px}
+.notice h3{font-size:15px;margin-bottom:8px;color:#183b5e}
+.notice p{font-size:13px;color:#60758a;line-height:1.6}
+@media(max-width:800px){.stats,.actions{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.container{flex-direction:column}.sidebar{width:100%}.sidebar ul{display:flex;flex-wrap:wrap}.sidebar li{flex:1 1 130px}.main{padding:16px}.stats,.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+<div><b>▦ Timetable Management System</b></div>
+<div>👤 Student &nbsp; | &nbsp; <a href="Firstpage.html" style="color:white">Logout</a></div>
+</header>
+
+<div class="container">
+<aside class="sidebar">
+<ul>
+<li class="active" onclick="selectPage(this,'Dashboard')"><span>⌂</span>Dashboard</li>
+<li onclick="selectPage(this,'My Timetable')"><span>▦</span>My Timetable</li>
+<li onclick="selectPage(this,'My Subjects')"><span>▤</span>My Subjects</li>
+<li onclick="selectPage(this,'My Profile')"><span>♙</span>My Profile</li>
+<li onclick="selectPage(this,'Class Details')"><span>▣</span>Class Details</li>
+<li onclick="selectPage(this,'Announcements')"><span>🔔</span>Announcements</li>
+<li onclick="logout()"><span>↪</span>Logout</li>
+</ul>
+</aside>
+
+<main class="main">
+<section class="welcome">
+<h2 id="pageTitle">Welcome, Student!</h2>
+<p>Check your class timetable, subjects, and important academic updates.</p>
+</section>
+
+<section class="stats">
+<div class="card blue"><div class="card-icon">▦</div><div><h2>4</h2><p>Classes Today</p></div></div>
+<div class="card green"><div class="card-icon">▤</div><div><h2>6</h2><p>Enrolled Subjects</p></div></div>
+<div class="card orange"><div class="card-icon">◷</div><div><h2>24</h2><p>Weekly Lectures</p></div></div>
+<div class="card purple"><div class="card-icon">🔔</div><div><h2>2</h2><p>Announcements</p></div></div>
+</section>
+
+<section class="section">
+<h3>Quick Actions</h3>
+<div class="actions">
+<div class="action" onclick="showMessage('View Timetable')"><div class="action-icon">▦</div><p>View Timetable</p></div>
+<div class="action" onclick="showMessage('View Subjects')"><div class="action-icon">▤</div><p>View Subjects</p></div>
+<div class="action" onclick="showMessage('Class Details')"><div class="action-icon">▣</div><p>Class Details</p></div>
+<div class="action" onclick="showMessage('My Profile')"><div class="action-icon">♙</div><p>My Profile</p></div>
+</div>
+</section>
+
+<section class="notice">
+<h3>Latest Announcements</h3>
+<p>Important notices, timetable changes, and academic announcements will appear here after database integration.</p>
+</section>
+</main>
+</div>
+
+<script>
+function selectPage(element,name){
+document.querySelectorAll(".sidebar li").forEach(item=>item.classList.remove("active"));
+element.classList.add("active");
+document.getElementById("pageTitle").textContent=name;
+}
+function showMessage(name){alert(name+" section will be developed next.");}
+function logout(){
+if(confirm("Are you sure you want to logout?"))window.location.href="Firstpage.html";
+}
+</script>
+</body>
+</html>

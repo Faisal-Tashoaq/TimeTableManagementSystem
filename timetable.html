@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Timetable Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7fc;
+    color: #18365d;
+}
+
+/* TOPBAR */
+
+.topbar {
+    height: 65px;
+    background: #173d69;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.logo i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-info i {
+    font-size: 23px;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 230px;
+    height: calc(100vh - 65px);
+    background: #102b4c;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    color: #9eb9d9;
+    font-size: 12px;
+    padding: 10px 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: block;
+    color: #dce8f7;
+    text-decoration: none;
+    padding: 14px 22px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    width: 30px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #168cff;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    border-top: 1px solid #36516f;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 230px;
+    padding: 95px 30px 30px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+}
+
+.page-heading p {
+    color: #71849e;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+/* SUMMARY CARDS */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-card h3 {
+    color: #7589a3;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.summary-card h2 {
+    font-size: 27px;
+}
+
+.summary-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.blue {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.green {
+    background: #ddf7e9;
+    color: #0b9c62;
+}
+
+.purple {
+    background: #eee8ff;
+    color: #7450d8;
+}
+
+/* PANELS */
+
+.panel {
+    background: white;
+    padding: 23px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    margin-bottom: 25px;
+}
+
+.panel h2 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+/* FORM */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+    font-size: 13px;
+    background: white;
+    color: #18365d;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #168cff;
+}
+
+/* TIME PICKER */
+
+.time-input {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.time-input input {
+    flex: 1;
+    min-width: 0;
+}
+
+.time-input select {
+    width: 85px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* FORM BUTTONS */
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 11px 19px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #168cff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e8eef6;
+    color: #173d69;
+}
+
+.btn:hover {
+    opacity: 0.88;
+}
+
+/* SEARCH */
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.search-box input {
+    width: 350px;
+    max-width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #168cff;
+}
+
+#recordCount {
+    font-size: 13px;
+    color: #71849e;
+}
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+th, td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 13px;
+}
+
+th {
+    background: #f5f8fc;
+    color: #7589a3;
+    font-weight: 600;
+}
+
+td {
+    color: #425b7a;
+}
+
+.action-btn {
+    border: none;
+    padding: 7px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.edit-btn {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.delete-btn {
+    background: #ffe6e6;
+    color: #dc3545;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 25px;
+    color: #8495aa;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1100px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 750px) {
+    .sidebar {
+        width: 65px;
+    }
+
+    .sidebar h3,
+    .sidebar a span {
+        display: none;
+    }
+
+    .sidebar a {
+        text-align: center;
+        padding: 16px 5px;
+    }
+
+    .sidebar a i {
+        width: auto;
+    }
+
+    .main {
+        margin-left: 65px;
+        padding: 90px 15px 20px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading h1 {
+        font-size: 22px;
+    }
+}
+
+@media(max-width: 480px) {
+    .admin-info span {
+        display: none;
+    }
+
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="logo">
+        <i class="fa-regular fa-calendar-days"></i>
+        Timetable Management
+    </div>
+
+    <div class="admin-info">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>Administrator</span>
+    </div>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <h3>Main Menu</h3>
+
+    <a href="admin-dashboard.html">
+        <i class="fa-solid fa-gauge"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="teachers.html">
+        <i class="fa-solid fa-users"></i>
+        <span>Teachers</span>
+    </a>
+
+    <a href="subjects.html">
+        <i class="fa-solid fa-book"></i>
+        <span>Subjects</span>
+    </a>
+
+    <a href="classes.html">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Classes</span>
+    </a>
+
+    <a href="classrooms.html">
+        <i class="fa-solid fa-door-open"></i>
+        <span>Classrooms</span>
+    </a>
+
+    <a href="timetable.html" class="active">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Timetable</span>
+    </a>
+
+    <h3>Account</h3>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Profile / Settings</span>
+    </a>
+
+    <a href="Firstpage.html" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+        <h1>Timetable Management</h1>
+        <p>Create, manage and organize class timetables.</p>
+    </div>
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Scheduled Classes</h3>
+                <h2 id="totalEntries">0</h2>
+            </div>
+            <div class="summary-icon blue">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Days Scheduled</h3>
+                <h2 id="totalDays">0</h2>
+            </div>
+            <div class="summary-icon green">
+                <i class="fa-solid fa-calendar-week"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Subjects Scheduled</h3>
+                <h2 id="totalSubjects">0</h2>
+            </div>
+            <div class="summary-icon purple">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ADD TIMETABLE FORM -->
+
+    <section class="panel">
+
+        <h2 id="formTitle">Add New Timetable Entry</h2>
+
+        <form id="timetableForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="day">Day</label>
+                    <select id="day" required>
+                        <option value="">Select Day</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="teacher">Teacher</label>
+                    <select id="teacher" required>
+                        <option value="">Select Teacher</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="className">Class</label>
+                    <select id="className" required>
+                        <option value="">Select Class</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="classroom">Classroom</label>
+                    <select id="classroom" required>
+                        <option value="">Select Classroom</option>
+                    </select>
+                </div>
+
+                <!-- START TIME -->
+
+                <div class="form-group">
+                    <label for="startTime">Start Time</label>
+
+                    <div class="time-input">
+                        <input
+                            type="time"
+                            id="startTime"
+                            required
+                        >
+
+                        <select id="startPeriod" required>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- END TIME -->
+
+                <div class="form-group">
+                    <label for="endTime">End Time</label>
+
+                    <div class="time-input">
+                        <input
+                            type="time"
+                            id="endTime"
+                            required
+                        >
+
+                        <select id="endPeriod" required>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-buttons">
+
+                <button type="submit" class="btn btn-primary" id="saveBtn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Timetable
+                </button>
+
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Reset
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <!-- TIMETABLE LIST -->
+
+    <section class="panel">
+
+        <h2>Timetable List</h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search timetable..."
+                oninput="displayTimetable()"
+            >
+
+            <span id="recordCount">Showing: 0 / 0</span>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Teacher</th>
+                        <th>Class</th>
+                        <th>Classroom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="timetableTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- CLASS-WISE MATRIX VIEW PANEL -->
+    <section class="panel">
+        <h2>Timetable - Class Wise</h2>
+        <p style="color: #71849e; margin-top: -12px; margin-bottom: 18px; font-size: 14px;">Select a class to view its weekly schedule matrix.</p>
+
+        <div class="search-box">
+            <div style="display: flex; gap: 10px; width: 100%; max-width: 450px;">
+                <select id="matrixClassSelect" style="flex: 1; padding: 12px; border: 1px solid #d8e2ef; border-radius: 6px; outline: none; font-size: 13px; background: white; color: #18365d;">
+                    <option value="">Select Class</option>
+                </select>
+                <button type="button" class="btn btn-primary" onclick="displayClassMatrix()">View</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                </thead>
+                <tbody id="classMatrixTable">
+                    <tr>
+                        <td colspan="7" class="empty-message">Please select a class and click view.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// LOAD SAVED DATA
+
+let timetable = JSON.parse(localStorage.getItem("timetable")) || [];
+
+let editIndex = -1;
+
+
+// CONVERT PICKER TIME INTO MINUTES
+
+function convertToMinutes(time, period) {
+
+    if (!time || !period) {
+        return null;
+    }
+
+    const parts = time.split(":");
+
+    let hours = parseInt(parts[0]);
+    let minutes = parseInt(parts[1]);
+
+    if (period === "AM" && hours === 12) {
+        hours = 0;
+    }
+
+    if (period === "PM" && hours !== 12) {
+        hours += 12;
+    }
+
+    return hours * 60 + minutes;
+}
+
+
+// CONVERT SAVED AM/PM TIME INTO MINUTES
+
+function storedTimeToMinutes(time) {
+
+    if (!time) {
+        return null;
+    }
+
+    const match = time.match(
+        /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    );
+
+    if (!match) {
+        return null;
+    }
+
+    return convertToMinutes(
+        match[1].padStart(2, "0") + ":" + match[2],
+        match[3].toUpperCase()
+    );
+}
+
+
+// FORMAT TIME INTO AM/PM
+
+function formatTime(time, period) {
+
+    if (!time) {
+        return "";
+    }
+
+    let parts = time.split(":");
+
+    let hours = parseInt(parts[0]);
+    let minutes = parts[1];
+
+    if (hours === 0) {
+        hours = 12;
+    } else if (hours > 12) {
+        hours -= 12;
+    }
+
+    return String(hours).padStart(2, "0") +
+        ":" + minutes + " " + period;
+}
+
+
+// LOAD DROPDOWN DATA
+
+function loadDropdowns() {
+
+    const subjects =
+        JSON.parse(localStorage.getItem("subjects")) || [];
+
+    const teachers =
+        JSON.parse(localStorage.getItem("teachers")) || [];
+
+    const classes =
+        JSON.parse(localStorage.getItem("classes")) || [];
+
+    const classrooms =
+        JSON.parse(localStorage.getItem("classrooms")) || [];
+
+
+    fillDropdown(
+        "subject",
+        subjects,
+        item => `${item.code} - ${item.name}`,
+        item => `${item.code} - ${item.name}`
+    );
+
+
+    fillDropdown(
+        "teacher",
+        teachers,
+        item => `${item.name} (${item.id})`,
+        item => `${item.name} (${item.id})`
+    );
+
+
+    fillDropdown(
+        "className",
+        classes,
+        item => `${item.department} Semester ${item.semester} ${item.section}`,
+        item => `${item.department} Semester ${item.semester} ${item.section}`
+    );
+
+
+    fillDropdown(
+        "classroom",
+        classrooms,
+        item => `${item.name} - ${item.building}`,
+        item => `${item.name} - ${item.building}`
+    );
+
+    // Also populate the matrix class view dropdown
+    fillDropdown(
+        "matrixClassSelect",
+        classes,
+        item => `${item.department} Semester ${item.semester} ${item.section}`,
+        item => `${item.department} Semester ${item.semester} ${item.section}`
+    );
+
+}
+
+
+// CREATE DROPDOWN OPTIONS
+
+function fillDropdown(id, items, labelFunction, valueFunction) {
+
+    const dropdown = document.getElementById(id);
+
+    const label = id === "className" || id === "matrixClassSelect"
+        ? "Class"
+        : id.charAt(0).toUpperCase() + id.slice(1);
+
+    dropdown.innerHTML =
+        `<option value="">Select ${label}</option>`;
+
+    items.forEach(item => {
+
+        const option = document.createElement("option");
+
+        option.value = valueFunction(item);
+
+        option.textContent = labelFunction(item);
+
+        dropdown.appendChild(option);
+
+    });
+
+}
+
+
+// SAVE TIMETABLE
+
+document.getElementById("timetableForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const day = document.getElementById("day").value;
+
+    const subject = document.getElementById("subject").value;
+
+    const teacher = document.getElementById("teacher").value;
+
+    const className = document.getElementById("className").value;
+
+    const classroom = document.getElementById("classroom").value;
+
+
+    const startValue =
+        document.getElementById("startTime").value;
+
+    const endValue =
+        document.getElementById("endTime").value;
+
+    const startPeriod =
+        document.getElementById("startPeriod").value;
+
+    const endPeriod =
+        document.getElementById("endPeriod").value;
+
+
+    const startMinutes =
+        convertToMinutes(startValue, startPeriod);
+
+    const endMinutes =
+        convertToMinutes(endValue, endPeriod);
+
+
+    if (startMinutes === null || endMinutes === null) {
+
+        alert("Please select both start and end times.");
+
+        return;
+    }
+
+
+    if (startMinutes >= endMinutes) {
+
+        alert("End time must be later than start time.");
+
+        return;
+    }
+
+
+    const startTime =
+        formatTime(startValue, startPeriod);
+
+    const endTime =
+        formatTime(endValue, endPeriod);
+
+
+    const newEntry = {
+
+        day: day,
+        subject: subject,
+        teacher: teacher,
+        className: className,
+        classroom: classroom,
+        startTime: startTime,
+        endTime: endTime
+
+    };
+
+
+    // CHECK FOR SCHEDULE CONFLICTS
+
+    const conflict = timetable.some((item, index) => {
+
+        if (index === editIndex) {
+            return false;
+        }
+
+        const sameDay = item.day === day;
+
+        const existingStart =
+            storedTimeToMinutes(item.startTime);
+
+        const existingEnd =
+            storedTimeToMinutes(item.endTime);
+
+
+        const sameTime =
+            existingStart !== null &&
+            existingEnd !== null &&
+            startMinutes < existingEnd &&
+            endMinutes > existingStart;
+
+
+        const teacherConflict =
+            item.teacher === teacher;
+
+        const roomConflict =
+            item.classroom === classroom;
+
+        const classConflict =
+            item.className === className;
+
+
+        return sameDay &&
+            sameTime &&
+            (teacherConflict || roomConflict || classConflict);
+
+    });
+
+
+    if (conflict) {
+
+        alert(
+            "Schedule conflict! The teacher, classroom or class already has a timetable entry during this time."
+        );
+
+        return;
+    }
+
+
+    // ADD OR UPDATE ENTRY
+
+    if (editIndex === -1) {
+
+        timetable.push(newEntry);
+
+        alert("Timetable entry added successfully!");
+
+    } else {
+
+        timetable[editIndex] = newEntry;
+
+        alert("Timetable entry updated successfully!");
+
+    }
+
+
+    localStorage.setItem(
+        "timetable",
+        JSON.stringify(timetable)
+    );
+
+
+    resetForm();
+
+    displayTimetable();
+
+});
+
+
+// DISPLAY TIMETABLE
+
+function displayTimetable() {
+
+    const table =
+        document.getElementById("timetableTable");
+
+    const search =
+        document.getElementById("searchInput")
+        .value.toLowerCase().trim();
+
+    table.innerHTML = "";
+
+
+    const dayOrder = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+
+    const filtered = timetable
+
+        .map((item, index) => ({
+
+            ...item,
+
+            originalIndex: index
+
+        }))
+
+        .filter(item =>
+
+            Object.keys(item).some(key =>
+
+                key !== "originalIndex" &&
+                String(item[key]).toLowerCase().includes(search)
+
+            )
+
+        )
+
+        .sort((a, b) => {
+
+            const dayDifference =
+                dayOrder.indexOf(a.day) -
+                dayOrder.indexOf(b.day);
+
+            if (dayDifference !== 0) {
+                return dayDifference;
+            }
+
+            return storedTimeToMinutes(a.startTime) -
+                storedTimeToMinutes(b.startTime);
+
+        });
+
+
+    if (filtered.length === 0) {
+
+        const row = document.createElement("tr");
+
+        const cell = document.createElement("td");
+
+        cell.colSpan = 7;
+
+        cell.className = "empty-message";
+
+        cell.textContent = "No timetable entries found.";
+
+        row.appendChild(cell);
+
+        table.appendChild(row);
+
+    }
+
+
+    filtered.forEach(item => {
+
+        const row = document.createElement("tr");
+
+
+        const values = [
+
+            item.day,
+
+            `${item.startTime} - ${item.endTime}`,
+
+            item.subject,
+
+            item.teacher,
+
+            item.className,
+
+            item.classroom
+
+        ];
+
+
+        values.forEach(value => {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value;
+
+            row.appendChild(cell);
+
+        });
+
+
+        // ACTION BUTTONS
+
+        const actionCell = document.createElement("td");
+
+
+        const editButton = document.createElement("button");
+
+        editButton.className = "action-btn edit-btn";
+
+        editButton.title = "Edit";
+
+        editButton.innerHTML =
+            '<i class="fa-solid fa-pen"></i>';
+
+        editButton.onclick = function() {
+
+            editTimetable(item.originalIndex);
+
+        };
+
+
+        const deleteButton = document.createElement("button");
+
+        deleteButton.className = "action-btn delete-btn";
+
+        deleteButton.title = "Delete";
+
+        deleteButton.innerHTML =
+            '<i class="fa-solid fa-trash"></i>';
+
+        deleteButton.onclick = function() {
+
+            deleteTimetable(item.originalIndex);
+
+        };
+
+
+        actionCell.appendChild(editButton);
+
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(actionCell);
+
+        table.appendChild(row);
+
+    });
+
+
+    document.getElementById("recordCount").textContent =
+
+        "Showing: " + filtered.length +
+        " / " + timetable.length;
+
+
+    updateSummary();
+
+}
+
+
+// UPDATE SUMMARY CARDS
+
+function updateSummary() {
+
+    document.getElementById("totalEntries").textContent =
+        timetable.length;
+
+
+    const days = new Set(
+
+        timetable.map(item => item.day)
+
+    );
+
+    document.getElementById("totalDays").textContent =
+        days.size;
+
+
+    const subjects = new Set(
+
+        timetable.map(item => item.subject)
+
+    );
+
+    document.getElementById("totalSubjects").textContent =
+        subjects.size;
+
+}
+
+
+// SET TIME PICKER WHILE EDITING
+
+function setTimeField(time, timeId, periodId) {
+
+    if (!time) {
+        return;
+    }
+
+    const parts = time.match(
+        /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    );
+
+    if (!parts) {
+        return;
+    }
+
+    let hours = parseInt(parts[1]);
+
+    const minutes = parts[2];
+
+    const period = parts[3].toUpperCase();
+
+
+    if (period === "AM" && hours === 12) {
+
+        hours = 0;
+
+    } else if (period === "PM" && hours !== 12) {
+
+        hours += 12;
+
+    }
+
+
+    document.getElementById(timeId).value =
+
+        String(hours).padStart(2, "0") +
+        ":" + minutes;
+
+
+    document.getElementById(periodId).value = period;
+
+}
+
+
+// EDIT TIMETABLE
+
+function editTimetable(index) {
+
+    const item = timetable[index];
+
+
+    document.getElementById("day").value =
+        item.day;
+
+    document.getElementById("subject").value =
+        item.subject;
+
+    document.getElementById("teacher").value =
+        item.teacher;
+
+    document.getElementById("className").value =
+        item.className;
+
+    document.getElementById("classroom").value =
+        item.classroom;
+
+
+    setTimeField(
+        item.startTime,
+        "startTime",
+        "startPeriod"
+    );
+
+    setTimeField(
+        item.endTime,
+        "endTime",
+        "endPeriod"
+    );
+
+
+    editIndex = index;
+
+
+    document.getElementById("formTitle").textContent =
+        "Update Timetable Entry";
+
+
+    document.getElementById("saveBtn").innerHTML =
+
+        '<i class="fa-solid fa-check"></i> Update Timetable';
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+// DELETE TIMETABLE
+
+function deleteTimetable(index) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this timetable entry?"
+    );
+
+
+    if (confirmDelete) {
+
+        timetable.splice(index, 1);
+
+
+        localStorage.setItem(
+            "timetable",
+            JSON.stringify(timetable)
+        );
+
+
+        if (editIndex === index) {
+
+            resetForm();
+
+        } else if (editIndex > index) {
+
+            editIndex--;
+
+        }
+
+
+        displayTimetable();
+
+        // Also refresh matrix if needed
+        displayClassMatrix();
+
+        alert("Timetable entry deleted successfully!");
+
+    }
+
+}
+
+
+// RESET FORM
+
+function resetForm() {
+
+    document.getElementById("timetableForm").reset();
+
+    editIndex = -1;
+
+
+    document.getElementById("formTitle").textContent =
+        "Add New Timetable Entry";
+
+
+    document.getElementById("saveBtn").innerHTML =
+
+        '<i class="fa-solid fa-plus"></i> Add Timetable';
+
+}
+
+
+// DISPLAY CLASS-WISE MATRIX TABLE
+
+function displayClassMatrix() {
+    const selectedClass = document.getElementById("matrixClassSelect").value;
+    const matrixTable = document.getElementById("classMatrixTable");
+    matrixTable.innerHTML = "";
+
+    if (!selectedClass) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 7;
+        cell.className = "empty-message";
+        cell.textContent = "Please select a class and click view.";
+        row.appendChild(cell);
+        matrixTable.appendChild(row);
+        return;
+    }
+
+    // Filter timetable entries matching this class
+    const classEntries = timetable.filter(item => item.className === selectedClass);
+
+    if (classEntries.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 7;
+        cell.className = "empty-message";
+        cell.textContent = "No schedule found for this class.";
+        row.appendChild(cell);
+        matrixTable.appendChild(row);
+        return;
+    }
+
+    // Get unique time slots sorted by start time
+    const timeSlotsMap = new Map();
+    classEntries.forEach(item => {
+        const timeKey = `${item.startTime} - ${item.endTime}`;
+        const startMin = storedTimeToMinutes(item.startTime);
+        timeSlotsMap.set(timeKey, startMin);
+    });
+
+    const uniqueTimeSlots = Array.from(timeSlotsMap.keys()).sort((a, b) => {
+        return timeSlotsMap.get(a) - timeSlotsMap.get(b);
+    });
+
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    uniqueTimeSlots.forEach(timeSlot => {
+        const row = document.createElement("tr");
+
+        // Time Column
+        const timeCell = document.createElement("td");
+        timeCell.textContent = timeSlot;
+        row.appendChild(timeCell);
+
+        // Day Columns
+        days.forEach(day => {
+            const dayCell = document.createElement("td");
+            // Find entry for this day and time slot
+            const matchedEntry = classEntries.find(item => item.day === day && `${item.startTime} - ${item.endTime}` === timeSlot);
+            
+            if (matchedEntry) {
+                // Display the full subject value/code directly (e.g., pcc-ite-521 - Subject Name or whatever was chosen)
+                dayCell.textContent = matchedEntry.subject;
+            } else {
+                dayCell.textContent = "-";
+            }
+            row.appendChild(dayCell);
+        });
+
+        matrixTable.appendChild(row);
+    });
+}
+
+
+// INITIALIZE PAGE
+
+loadDropdowns();
+
+displayTimetable();
+
+</script>
+
+</body>
+</html>

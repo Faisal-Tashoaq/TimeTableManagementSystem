@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -501,10 +501,7 @@ body {
 
 <body>
 
-<!-- TOP NAVIGATION -->
-
 <header class="topbar">
-
     <div class="logo">
         <i class="fa-regular fa-calendar-days"></i>
         Timetable Management System
@@ -523,13 +520,9 @@ body {
             <i class="fa-solid fa-circle-info"></i> About
         </a>
     </nav>
-
 </header>
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
-
     <a href="#home" class="active">
         <i class="fa-solid fa-house"></i> Home
     </a>
@@ -545,17 +538,12 @@ body {
     <a href="mailto:admin@example.com">
         <i class="fa-regular fa-envelope"></i> Contact
     </a>
-
 </aside>
-
-<!-- MAIN CONTENT -->
 
 <main class="main" id="home">
 
     <section class="hero">
-
         <div class="hero-content">
-
             <h1>
                 Timetable<br>
                 <span>Management System</span>
@@ -568,7 +556,6 @@ body {
             </p>
 
             <div class="buttons">
-
                 <a href="#" onclick="openLogin(); return false;" class="btn btn-login">
                     <i class="fa-solid fa-user"></i>
                     &nbsp; Login
@@ -578,22 +565,16 @@ body {
                     Learn More &nbsp;
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-
             </div>
-
         </div>
 
         <div class="hero-tagline">
             Better Planning<br>
             for a Brighter Future
         </div>
-
     </section>
 
-    <!-- FEATURES SECTION -->
-
     <section class="features" id="features">
-
         <h2 class="section-title">
             <span>—</span> Key Features
         </h2>
@@ -605,10 +586,7 @@ body {
                     <i class="fa-regular fa-calendar-days"></i>
                 </div>
                 <h3>Timetable Management</h3>
-                <p>
-                    Create, update and manage timetables for
-                    different classes, sections and departments.
-                </p>
+                <p>Create, update and manage timetables for different classes, sections and departments.</p>
             </div>
 
             <div class="feature-card">
@@ -616,10 +594,7 @@ body {
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <h3>Teacher & Subject Management</h3>
-                <p>
-                    Maintain teacher details and manage
-                    subject assignments with ease.
-                </p>
+                <p>Maintain teacher details and manage subject assignments with ease.</p>
             </div>
 
             <div class="feature-card">
@@ -627,10 +602,7 @@ body {
                     <i class="fa-solid fa-chalkboard"></i>
                 </div>
                 <h3>Classroom Management</h3>
-                <p>
-                    Add and manage classrooms and laboratories
-                    for smooth scheduling.
-                </p>
+                <p>Add and manage classrooms and laboratories for smooth scheduling.</p>
             </div>
 
             <div class="feature-card">
@@ -638,10 +610,7 @@ body {
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <h3>Conflict Detection</h3>
-                <p>
-                    Automatically check for clashes between
-                    teachers, classrooms and classes.
-                </p>
+                <p>Automatically check for clashes between teachers, classrooms and classes.</p>
             </div>
 
             <div class="feature-card">
@@ -649,10 +618,7 @@ body {
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
                 <h3>View Timetable</h3>
-                <p>
-                    View timetables by class, teacher, day
-                    or subject with simple search and filters.
-                </p>
+                <p>View timetables by class, teacher, day or subject with simple search and filters.</p>
             </div>
 
             <div class="feature-card">
@@ -660,10 +626,7 @@ body {
                     <i class="fa-solid fa-database"></i>
                 </div>
                 <h3>Secure Database</h3>
-                <p>
-                    Store all data safely in a MySQL database
-                    with proper organization and backup.
-                </p>
+                <p>Store all data safely in a MySQL database with proper organization and backup.</p>
             </div>
 
             <div class="feature-card">
@@ -671,10 +634,7 @@ body {
                     <i class="fa-solid fa-desktop"></i>
                 </div>
                 <h3>Web Based Access</h3>
-                <p>
-                    Access the system from any device
-                    with a web browser.
-                </p>
+                <p>Access the system from any device with a web browser.</p>
             </div>
 
             <div class="feature-card">
@@ -682,20 +642,13 @@ body {
                     <i class="fa-solid fa-code"></i>
                 </div>
                 <h3>Built with Modern Web Technologies</h3>
-                <p>
-                    Uses HTML, CSS, JavaScript, PHP,
-                    MySQL and XML (optional).
-                </p>
+                <p>Uses HTML, CSS, JavaScript, PHP, MySQL and XML (optional).</p>
             </div>
 
         </div>
-
     </section>
 
-    <!-- FOOTER -->
-
     <footer class="footer">
-
         <div>
             <strong>Smart Timetable Management System</strong>
             &nbsp; | &nbsp; BTech ITE Project
@@ -704,23 +657,18 @@ body {
         <div class="footer-right">
             Organize &bull; Plan &bull; Manage
         </div>
-
     </footer>
 
 </main>
 
-<!-- ADMIN, STAFF AND STUDENT LOGIN POPUP -->
+<!-- LOGIN POPUP -->
 
 <div class="modal" id="loginModal">
-
     <div class="modal-box">
 
         <span class="close" onclick="closeLogin()">&times;</span>
 
-        <!-- LOGIN TYPE SELECTION -->
-
         <div id="loginChoices">
-
             <h2>Select Login Type</h2>
 
             <p style="color:#617b9f; margin:0 0 20px;">
@@ -729,114 +677,82 @@ body {
 
             <div class="login-options">
 
-                <!-- ADMIN BUTTON -->
-
                 <button type="button" class="login-option"
                     onclick="showLoginForm('admin')">
-
                     <i class="fa-solid fa-user-shield"></i>
                     Admin Login
-
                 </button>
-
-                <!-- STAFF BUTTON -->
 
                 <button type="button" class="login-option"
                     onclick="showLoginForm('staff')">
-
                     <i class="fa-solid fa-chalkboard-user"></i>
                     Staff Login
-
                 </button>
-
-                <!-- STUDENT BUTTON -->
 
                 <button type="button" class="login-option"
                     onclick="showLoginForm('student')">
-
                     <i class="fa-solid fa-user-graduate"></i>
                     Student Login
-
                 </button>
 
             </div>
-
         </div>
 
-        <!-- ADMIN LOGIN FORM -->
+        <!-- ADMIN LOGIN -->
 
         <form class="login-form" id="adminLoginForm"
             onsubmit="loginUser(event, 'Admin')">
 
-            <span class="back-link" onclick="backToLoginChoices()">
-                &#8592; Back
-            </span>
+            <span class="back-link" onclick="backToLoginChoices()">&#8592; Back</span>
 
             <h3>
                 <i class="fa-solid fa-user-shield"></i>
                 Admin Login
             </h3>
 
-            <input type="text"
-                placeholder="Enter Admin Username" required>
-
-            <input type="password"
-                placeholder="Enter Password" required>
+            <input type="text" placeholder="Enter Admin Username" required>
+            <input type="password" placeholder="Enter Password" required>
 
             <button type="submit">Login as Admin</button>
-
         </form>
 
-        <!-- STAFF LOGIN FORM -->
+        <!-- STAFF LOGIN -->
 
         <form class="login-form" id="staffLoginForm"
             onsubmit="loginUser(event, 'Staff')">
 
-            <span class="back-link" onclick="backToLoginChoices()">
-                &#8592; Back
-            </span>
+            <span class="back-link" onclick="backToLoginChoices()">&#8592; Back</span>
 
             <h3>
                 <i class="fa-solid fa-chalkboard-user"></i>
                 Staff Login
             </h3>
 
-            <input type="text"
-                placeholder="Enter Staff ID / Username" required>
-
-            <input type="password"
-                placeholder="Enter Password" required>
+            <input type="text" placeholder="Enter Staff ID / Username" required>
+            <input type="password" placeholder="Enter Password" required>
 
             <button type="submit">Login as Staff</button>
-
         </form>
 
-        <!-- STUDENT LOGIN FORM -->
+        <!-- STUDENT LOGIN -->
 
         <form class="login-form" id="studentLoginForm"
             onsubmit="loginUser(event, 'Student')">
 
-            <span class="back-link" onclick="backToLoginChoices()">
-                &#8592; Back
-            </span>
+            <span class="back-link" onclick="backToLoginChoices()">&#8592; Back</span>
 
             <h3>
                 <i class="fa-solid fa-user-graduate"></i>
                 Student Login
             </h3>
 
-            <input type="text"
-                placeholder="Enter Student ID / Roll Number" required>
-
-            <input type="password"
-                placeholder="Enter Password" required>
+            <input type="text" placeholder="Enter Student ID / Roll Number" required>
+            <input type="password" placeholder="Enter Password" required>
 
             <button type="submit">Login as Student</button>
-
         </form>
 
     </div>
-
 </div>
 
 <!-- JAVASCRIPT -->
@@ -853,7 +769,6 @@ function openLogin() {
 // Show selected login form
 
 function showLoginForm(role) {
-
     document.getElementById("loginChoices").style.display = "none";
 
     document.getElementById("adminLoginForm").style.display = "none";
@@ -866,7 +781,6 @@ function showLoginForm(role) {
 // Return to login selection
 
 function backToLoginChoices() {
-
     document.getElementById("loginChoices").style.display = "block";
 
     document.getElementById("adminLoginForm").style.display = "none";
@@ -880,35 +794,52 @@ function closeLogin() {
     document.getElementById("loginModal").style.display = "none";
 }
 
-// Login form submission
+// ROLE-BASED LOGIN REDIRECTION
+
 
 function loginUser(event, role) {
 
     event.preventDefault();
 
-    alert(role + " login interface is ready. Backend authentication is not connected yet.");
+    const form = event.currentTarget;
 
-    closeLogin();
-}
-
-// Close popup when clicking outside
-
-window.onclick = function(event) {
-
-    let modal = document.getElementById("loginModal");
-
-    if (event.target === modal) {
-        closeLogin();
+    // Check whether all required fields are filled
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
     }
 
-};
+    let dashboard = "";
+
+    // Redirect according to the selected login type
+    switch (role) {
+
+        case "Admin":
+            dashboard = "admin-dashboard.html";
+            break;
+
+        case "Staff":
+            dashboard = "staff-dashboard.html";
+            break;
+
+        case "Student":
+            dashboard = "student-dashboard.html";
+            break;
+
+        default:
+            return;
+    }
+
+    // Direct redirection without an alert popup
+    window.location.href = dashboard;
+}
+
 
 // Sidebar active menu
 
 let sidebarLinks = document.querySelectorAll(".sidebar a");
 
 sidebarLinks.forEach(function(link) {
-
     link.addEventListener("click", function() {
 
         sidebarLinks.forEach(function(item) {
@@ -916,12 +847,11 @@ sidebarLinks.forEach(function(link) {
         });
 
         this.classList.add("active");
-
     });
-
 });
 
 </script>
 
 </body>
 </html>
+```

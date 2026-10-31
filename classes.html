@@ -1,0 +1,1011 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Classes Management - Timetable Management System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7fc;
+    color: #18365d;
+}
+
+/* TOPBAR */
+
+.topbar {
+    height: 65px;
+    background: #173d69;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.logo i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-info i {
+    font-size: 23px;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 230px;
+    height: calc(100vh - 65px);
+    background: #102b4c;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    color: #9eb9d9;
+    font-size: 12px;
+    padding: 10px 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: block;
+    color: #dce8f7;
+    text-decoration: none;
+    padding: 14px 22px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    width: 30px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #168cff;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    border-top: 1px solid #36516f;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 230px;
+    padding: 95px 30px 30px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+}
+
+.page-heading p {
+    color: #71849e;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+/* SUMMARY CARDS */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-card h3 {
+    color: #7589a3;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.summary-card h2 {
+    font-size: 27px;
+}
+
+.summary-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.blue {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.green {
+    background: #ddf7e9;
+    color: #0b9c62;
+}
+
+.purple {
+    background: #eee8ff;
+    color: #7450d8;
+}
+
+/* PANELS */
+
+.panel {
+    background: white;
+    padding: 23px;
+    border-radius: 10px;
+    border: 1px solid #e2eaf4;
+    margin-bottom: 25px;
+}
+
+.panel h2 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+/* FORM */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+    font-size: 13px;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #168cff;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 11px 19px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #168cff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e8eef6;
+    color: #173d69;
+}
+
+.btn:hover {
+    opacity: 0.88;
+}
+
+/* SEARCH */
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.search-box input {
+    width: 350px;
+    max-width: 100%;
+    padding: 12px;
+    border: 1px solid #d8e2ef;
+    border-radius: 6px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #168cff;
+}
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 950px;
+}
+
+th, td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #edf1f6;
+    font-size: 13px;
+}
+
+th {
+    background: #f5f8fc;
+    color: #7589a3;
+    font-weight: 600;
+}
+
+td {
+    color: #425b7a;
+}
+
+.action-btn {
+    border: none;
+    padding: 7px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.edit-btn {
+    background: #e2f0ff;
+    color: #168cff;
+}
+
+.delete-btn {
+    background: #ffe6e6;
+    color: #dc3545;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 25px;
+    color: #8495aa;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1100px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 750px) {
+    .sidebar {
+        width: 65px;
+    }
+
+    .sidebar h3,
+    .sidebar a span {
+        display: none;
+    }
+
+    .sidebar a {
+        text-align: center;
+        padding: 16px 5px;
+    }
+
+    .sidebar a i {
+        width: auto;
+    }
+
+    .main {
+        margin-left: 65px;
+        padding: 90px 15px 20px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading h1 {
+        font-size: 22px;
+    }
+}
+
+@media(max-width: 480px) {
+    .admin-info span {
+        display: none;
+    }
+
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+    <div class="logo">
+        <i class="fa-regular fa-calendar-days"></i>
+        Timetable Management
+    </div>
+
+    <div class="admin-info">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>Administrator</span>
+    </div>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <h3>Main Menu</h3>
+
+    <a href="admin-dashboard.html">
+        <i class="fa-solid fa-gauge"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="teachers.html">
+        <i class="fa-solid fa-users"></i>
+        <span>Teachers</span>
+    </a>
+
+    <a href="subjects.html">
+        <i class="fa-solid fa-book"></i>
+        <span>Subjects</span>
+    </a>
+
+    <a href="classes.html" class="active">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Classes</span>
+    </a>
+
+    <a href="classrooms.html">
+        <i class="fa-solid fa-door-open"></i>
+        <span>Classrooms</span>
+    </a>
+
+    <a href="timetable.html">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Timetable</span>
+    </a>
+
+    <h3>Account</h3>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Profile / Settings</span>
+    </a>
+
+    <a href="Firstpage.html" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+    <div class="page-heading">
+        <h1>Classes Management</h1>
+        <p>Manage subjects assigned to academic classes and semesters.</p>
+    </div>
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Class Records</h3>
+                <h2 id="totalClasses">0</h2>
+            </div>
+            <div class="summary-icon blue">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Departments</h3>
+                <h2 id="totalDepartments">0</h2>
+            </div>
+            <div class="summary-icon green">
+                <i class="fa-solid fa-building"></i>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div>
+                <h3>Total Semesters</h3>
+                <h2 id="totalSemesters">0</h2>
+            </div>
+            <div class="summary-icon purple">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ADD CLASS FORM -->
+
+    <section class="panel">
+
+        <h2 id="formHeading">
+            <i class="fa-solid fa-plus-circle"></i>
+            &nbsp; Add New Class Record
+        </h2>
+
+        <form id="classForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Class ID</label>
+                    <input type="text" id="classId"
+                        placeholder="e.g. ITE-5A" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Subject Name</label>
+                    <select id="classSubject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="classDepartment" required>
+                        <option value="">Select Department</option>
+                        <option>Information Technology Engineering</option>
+                        <option>Computer Science Engineering</option>
+                        <option>Electronics Engineering</option>
+                        <option>Electrical Engineering</option>
+                        <option>Civil Engineering</option>
+                        <option>Mechanical Engineering</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Semester</label>
+                    <select id="classSemester" required>
+                        <option value="">Select Semester</option>
+                        <option>1st Semester</option>
+                        <option>2nd Semester</option>
+                        <option>3rd Semester</option>
+                        <option>4th Semester</option>
+                        <option>5th Semester</option>
+                        <option>6th Semester</option>
+                        <option>7th Semester</option>
+                        <option>8th Semester</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Section</label>
+                    <select id="classSection" required>
+                        <option value="">Select Section</option>
+                        <option>Section A</option>
+                        <option>Section B</option>
+                        <option>Section C</option>
+                        <option>Section D</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Academic Year</label>
+                    <input type="text" id="academicYear"
+                        placeholder="e.g. 2026-2027"
+                        pattern="[0-9]{4}-[0-9]{4}"
+                        title="Enter year in format 2026-2027"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Class Teacher</label>
+                    <select id="classTeacher" required>
+                        <option value="">Select Class Teacher</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-buttons">
+
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Class
+                </button>
+
+                <button type="reset" class="btn btn-secondary"
+                    onclick="resetForm()">
+                    Clear Form
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <!-- CLASS RECORDS -->
+
+    <section class="panel">
+
+        <h2>
+            <i class="fa-solid fa-list"></i>
+            &nbsp; Class Records
+        </h2>
+
+        <div class="search-box">
+
+            <input type="text" id="searchClass"
+                placeholder="Search by ID, subject, department or semester..."
+                oninput="displayClasses()">
+
+            <span id="recordCount">Showing: 0 / 0</span>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Class ID</th>
+                        <th>Subject Name</th>
+                        <th>Subject Code</th>
+                        <th>Department</th>
+                        <th>Semester</th>
+                        <th>Section</th>
+                        <th>Academic Year</th>
+                        <th>Class Teacher</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="classTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+// Load saved records
+
+let classes = JSON.parse(localStorage.getItem("classes")) || [];
+let subjects = JSON.parse(localStorage.getItem("subjects")) || [];
+let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+
+let editIndex = -1;
+
+
+// Load subjects into dropdown
+
+function loadSubjects() {
+
+    const subjectSelect = document.getElementById("classSubject");
+
+    subjectSelect.innerHTML =
+        '<option value="">Select Subject</option>';
+
+    subjects.forEach(function(subject) {
+
+        const option = document.createElement("option");
+
+        option.value = subject.code;
+        option.textContent = subject.name + " (" + subject.code + ")";
+
+        subjectSelect.appendChild(option);
+
+    });
+
+}
+
+
+// Load teachers into dropdown
+
+function loadTeachers() {
+
+    const teacherSelect = document.getElementById("classTeacher");
+
+    teacherSelect.innerHTML =
+        '<option value="">Select Class Teacher</option>';
+
+    teachers.forEach(function(teacher) {
+
+        const option = document.createElement("option");
+
+        option.value = teacher.name;
+        option.textContent = teacher.name + " (" + teacher.id + ")";
+
+        teacherSelect.appendChild(option);
+
+    });
+
+}
+
+
+// Save classes
+
+function saveClasses() {
+
+    localStorage.setItem("classes", JSON.stringify(classes));
+
+}
+
+
+// Add or update class
+
+document.getElementById("classForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const selectedSubjectCode =
+        document.getElementById("classSubject").value;
+
+    const selectedSubject = subjects.find(function(subject) {
+        return subject.code === selectedSubjectCode;
+    });
+
+    if (!selectedSubject) {
+        alert("Please select a valid subject.");
+        return;
+    }
+
+    const classRecord = {
+
+        id: document.getElementById("classId").value.trim(),
+
+        subjectCode: selectedSubject.code,
+
+        subjectName: selectedSubject.name,
+
+        department: document.getElementById("classDepartment").value,
+
+        semester: document.getElementById("classSemester").value,
+
+        section: document.getElementById("classSection").value,
+
+        year: document.getElementById("academicYear").value.trim(),
+
+        teacher: document.getElementById("classTeacher").value
+
+    };
+
+    // Check duplicate class ID
+
+    const duplicate = classes.some(function(item, index) {
+
+        return item.id.toLowerCase() === classRecord.id.toLowerCase()
+            && index !== editIndex;
+
+    });
+
+    if (duplicate) {
+        alert("This Class ID already exists!");
+        return;
+    }
+
+    if (editIndex === -1) {
+
+        classes.push(classRecord);
+
+        alert("Class record added successfully!");
+
+    } else {
+
+        classes[editIndex] = classRecord;
+
+        alert("Class record updated successfully!");
+
+    }
+
+    saveClasses();
+
+    resetForm();
+
+    displayClasses();
+
+});
+
+
+// Display class records
+
+function displayClasses() {
+
+    const table = document.getElementById("classTable");
+
+    const search = document.getElementById("searchClass")
+        .value.toLowerCase().trim();
+
+    table.innerHTML = "";
+
+    const filteredClasses = classes
+        .map(function(classRecord, index) {
+            return { classRecord, index };
+        })
+        .filter(function(item) {
+
+            const c = item.classRecord;
+
+            return c.id.toLowerCase().includes(search) ||
+                   c.subjectName.toLowerCase().includes(search) ||
+                   c.subjectCode.toLowerCase().includes(search) ||
+                   c.department.toLowerCase().includes(search) ||
+                   c.semester.toLowerCase().includes(search) ||
+                   c.section.toLowerCase().includes(search) ||
+                   c.year.toLowerCase().includes(search) ||
+                   c.teacher.toLowerCase().includes(search);
+
+        });
+
+    if (filteredClasses.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" class="empty-message">
+                    No class records found.
+                </td>
+            </tr>
+        `;
+
+    }
+
+    filteredClasses.forEach(function(item) {
+
+        const c = item.classRecord;
+
+        const row = document.createElement("tr");
+
+        [
+            c.id,
+            c.subjectName,
+            c.subjectCode,
+            c.department,
+            c.semester,
+            c.section,
+            c.year,
+            c.teacher
+        ].forEach(function(value) {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value;
+
+            row.appendChild(cell);
+
+        });
+
+        const actionCell = document.createElement("td");
+
+        actionCell.innerHTML = `
+            <button class="action-btn edit-btn"
+                onclick="editClass(${item.index})" title="Edit">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+
+            <button class="action-btn delete-btn"
+                onclick="deleteClass(${item.index})" title="Delete">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        `;
+
+        row.appendChild(actionCell);
+
+        table.appendChild(row);
+
+    });
+
+    updateStatistics(filteredClasses.length);
+
+}
+
+
+// Update statistics
+
+function updateStatistics(filteredCount) {
+
+    document.getElementById("totalClasses").textContent =
+        classes.length;
+
+    const departments = new Set(
+        classes.map(c => c.department)
+    );
+
+    document.getElementById("totalDepartments").textContent =
+        departments.size;
+
+    const semesters = new Set(
+        classes.map(c => c.semester)
+    );
+
+    document.getElementById("totalSemesters").textContent =
+        semesters.size;
+
+    document.getElementById("recordCount").textContent =
+        "Showing: " + filteredCount + " / " + classes.length;
+
+}
+
+
+// Edit class
+
+function editClass(index) {
+
+    const c = classes[index];
+
+    document.getElementById("classId").value = c.id;
+
+    document.getElementById("classSubject").value = c.subjectCode;
+
+    document.getElementById("classDepartment").value = c.department;
+
+    document.getElementById("classSemester").value = c.semester;
+
+    document.getElementById("classSection").value = c.section;
+
+    document.getElementById("academicYear").value = c.year;
+
+    document.getElementById("classTeacher").value = c.teacher;
+
+    editIndex = index;
+
+    document.getElementById("formHeading").innerHTML =
+        '<i class="fa-solid fa-pen"></i> &nbsp; Update Class Record';
+
+    document.getElementById("submitBtn").innerHTML =
+        '<i class="fa-solid fa-check"></i> Update Class';
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// Delete class
+
+function deleteClass(index) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this class record?"
+    );
+
+    if (confirmDelete) {
+
+        classes.splice(index, 1);
+
+        saveClasses();
+
+        if (editIndex === index) {
+            resetForm();
+        } else if (editIndex > index) {
+            editIndex--;
+        }
+
+        displayClasses();
+
+        alert("Class record deleted successfully!");
+
+    }
+
+}
+
+
+// Reset form
+
+function resetForm() {
+
+    document.getElementById("classForm").reset();
+
+    editIndex = -1;
+
+    document.getElementById("formHeading").innerHTML =
+        '<i class="fa-solid fa-plus-circle"></i> &nbsp; Add New Class Record';
+
+    document.getElementById("submitBtn").innerHTML =
+        '<i class="fa-solid fa-plus"></i> Add Class';
+
+}
+
+
+// Load data when page opens
+
+loadSubjects();
+
+loadTeachers();
+
+displayClasses();
+
+</script>
+
+</body>
+</html>
