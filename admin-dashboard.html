@@ -221,11 +221,11 @@ body {
     font-size: 14px;
 }
 
-/* LOWER SECTION */
+/* SYSTEM OVERVIEW */
 
 .lower-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
@@ -264,29 +264,6 @@ th {
     padding: 5px 9px;
     border-radius: 20px;
     font-size: 11px;
-}
-
-.activity {
-    display: flex;
-    gap: 13px;
-    padding: 14px 0;
-    border-bottom: 1px solid #edf1f6;
-    font-size: 13px;
-}
-
-.activity i {
-    color: #168cff;
-    font-size: 17px;
-    margin-top: 2px;
-}
-
-.activity p {
-    color: #536c8a;
-    line-height: 1.5;
-}
-
-.activity small {
-    color: #9aa8ba;
 }
 
 /* RESPONSIVE */
@@ -433,7 +410,7 @@ th {
         <div class="stat-card">
             <div>
                 <h3>Total Teachers</h3>
-                <h2 id="teacherCount">10</h2>
+                <h2 id="teacherCount">0</h2>
             </div>
             <div class="stat-icon blue">
                 <i class="fa-solid fa-users"></i>
@@ -443,7 +420,7 @@ th {
         <div class="stat-card">
             <div>
                 <h3>Total Subjects</h3>
-                <h2 id="subjectCount">12</h2>
+                <h2 id="subjectCount">0</h2>
             </div>
             <div class="stat-icon green">
                 <i class="fa-solid fa-book"></i>
@@ -453,7 +430,7 @@ th {
         <div class="stat-card">
             <div>
                 <h3>Total Classes</h3>
-                <h2 id="classCount">6</h2>
+                <h2 id="classCount">0</h2>
             </div>
             <div class="stat-icon purple">
                 <i class="fa-solid fa-graduation-cap"></i>
@@ -463,7 +440,7 @@ th {
         <div class="stat-card">
             <div>
                 <h3>Total Classrooms</h3>
-                <h2 id="roomCount">8</h2>
+                <h2 id="roomCount">0</h2>
             </div>
             <div class="stat-icon orange">
                 <i class="fa-solid fa-door-open"></i>
@@ -500,7 +477,7 @@ th {
 
     </section>
 
-    <!-- LOWER CONTENT -->
+    <!-- SYSTEM OVERVIEW -->
 
     <section class="lower-grid">
 
@@ -519,58 +496,29 @@ th {
                 <tbody>
                     <tr>
                         <td>Teachers</td>
-                        <td>10</td>
+                        <td id="teacherRecords">0</td>
                         <td><span class="status">Active</span></td>
                     </tr>
 
                     <tr>
                         <td>Subjects</td>
-                        <td>12</td>
+                        <td id="subjectRecords">0</td>
                         <td><span class="status">Active</span></td>
                     </tr>
 
                     <tr>
                         <td>Classes</td>
-                        <td>6</td>
+                        <td id="classRecords">0</td>
                         <td><span class="status">Active</span></td>
                     </tr>
 
                     <tr>
                         <td>Classrooms</td>
-                        <td>8</td>
+                        <td id="roomRecords">0</td>
                         <td><span class="status">Active</span></td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="panel">
-            <h2>Recent Activities</h2>
-
-            <div class="activity">
-                <i class="fa-solid fa-user-plus"></i>
-                <div>
-                    <p>Teacher management module is ready.</p>
-                    <small>Recently</small>
-                </div>
-            </div>
-
-            <div class="activity">
-                <i class="fa-solid fa-book"></i>
-                <div>
-                    <p>Subject management module is ready.</p>
-                    <small>Recently</small>
-                </div>
-            </div>
-
-            <div class="activity">
-                <i class="fa-solid fa-calendar-check"></i>
-                <div>
-                    <p>Timetable management module is ready.</p>
-                    <small>Recently</small>
-                </div>
-            </div>
-
         </div>
 
     </section>
@@ -592,11 +540,58 @@ document.getElementById("currentDate").textContent =
         year: "numeric"
     });
 
+
+// Get actual records from localStorage
+
+function getRecordCount(key) {
+
+    try {
+        const records = JSON.parse(localStorage.getItem(key) || "[]");
+
+        return Array.isArray(records) ? records.length : 0;
+
+    } catch (error) {
+        console.error("Error reading " + key, error);
+        return 0;
+    }
+}
+
+
+// Update dashboard statistics
+
+function updateDashboard() {
+
+    const teachers = getRecordCount("teachers");
+    const subjects = getRecordCount("subjects");
+    const classes = getRecordCount("classes");
+    const classrooms = getRecordCount("classrooms");
+
+    // Statistics cards
+
+    document.getElementById("teacherCount").textContent = teachers;
+    document.getElementById("subjectCount").textContent = subjects;
+    document.getElementById("classCount").textContent = classes;
+    document.getElementById("roomCount").textContent = classrooms;
+
+    // System Overview table
+
+    document.getElementById("teacherRecords").textContent = teachers;
+    document.getElementById("subjectRecords").textContent = subjects;
+    document.getElementById("classRecords").textContent = classes;
+    document.getElementById("roomRecords").textContent = classrooms;
+}
+
+
 // Open selected page
 
 function openPage(page) {
     window.location.href = page;
 }
+
+
+// Run dashboard update
+
+updateDashboard();
 
 </script>
 
